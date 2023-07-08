@@ -53,6 +53,20 @@ extension ImagesListViewController {
         let likeImage = isLiked ? UIImage(named: "like button ON") : UIImage(named: "like button OFF")
         cell.likeButton.setImage(likeImage, for: .normal)
     }
+    
+    func gradientViewSet(_ cell: ImagesListCell) {
+        let gradientLayer = CAGradientLayer()
+        let topColor = UIColor(red: 0.27, green: 0.26, blue: 0.34, alpha: 0.00)
+        let bottomColor = UIColor(red: 0.27, green: 0.26, blue: 0.34, alpha: 1.00)
+        let gradientColors: [CGColor] = [topColor.cgColor, bottomColor.cgColor]
+        
+        gradientLayer.frame = cell.gradientView.bounds
+        gradientLayer.colors = gradientColors
+        
+        cell.gradientView.backgroundColor = UIColor.clear
+        cell.gradientView.layer.insertSublayer(gradientLayer, at: 0)
+        cell.gradientView.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
+    }
 }
 
     // MARK: - UITableViewDataSource

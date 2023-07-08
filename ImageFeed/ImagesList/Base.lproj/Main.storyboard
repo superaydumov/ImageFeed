@@ -6,6 +6,7 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21678"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -28,7 +29,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="279"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="JrK-8X-HCS">
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="JrK-8X-HCS" userLabel="cellImage">
                                                     <rect key="frame" x="16" y="4" width="382" height="271"/>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <userDefinedRuntimeAttributes>
@@ -38,39 +39,62 @@
                                                         </userDefinedRuntimeAttribute>
                                                     </userDefinedRuntimeAttributes>
                                                 </imageView>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="y9Z-8F-TpU" userLabel="Like button">
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yV8-bz-AXh" userLabel="gradientView">
+                                                    <rect key="frame" x="16" y="245" width="382" height="30"/>
+                                                    <subviews>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="7 июля 2023" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LEc-Ae-sdO">
+                                                            <rect key="frame" x="8" y="6" width="79" height="16"/>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                                            <color key="textColor" name="YP White"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                    </subviews>
+                                                    <color key="backgroundColor" systemColor="systemYellowColor"/>
+                                                    <constraints>
+                                                        <constraint firstItem="LEc-Ae-sdO" firstAttribute="leading" secondItem="yV8-bz-AXh" secondAttribute="leading" constant="8" id="0NT-l2-lad"/>
+                                                        <constraint firstAttribute="bottom" secondItem="LEc-Ae-sdO" secondAttribute="bottom" constant="8" id="5TM-Qc-xJU"/>
+                                                        <constraint firstAttribute="height" constant="30" id="BpP-6e-Agn"/>
+                                                        <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="LEc-Ae-sdO" secondAttribute="trailing" constant="8" id="Ktp-B0-Dvt"/>
+                                                    </constraints>
+                                                    <userDefinedRuntimeAttributes>
+                                                        <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
+                                                        <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                            <integer key="value" value="16"/>
+                                                        </userDefinedRuntimeAttribute>
+                                                    </userDefinedRuntimeAttributes>
+                                                </view>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="y9Z-8F-TpU" userLabel="likeButton">
                                                     <rect key="frame" x="354" y="4" width="44" height="44"/>
                                                     <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                                     <state key="normal" image="like button ON"/>
                                                 </button>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="08 июля 2023" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="M3C-0l-Tav" userLabel="Date label">
-                                                    <rect key="frame" x="24" y="251" width="366" height="16"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                                                    <color key="textColor" name="YP White"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <constraints>
-                                                <constraint firstItem="M3C-0l-Tav" firstAttribute="leading" secondItem="JrK-8X-HCS" secondAttribute="leading" constant="8" id="11E-MO-E5c"/>
                                                 <constraint firstItem="JrK-8X-HCS" firstAttribute="leading" secondItem="xkb-xz-4gi" secondAttribute="leading" constant="16" id="1fa-7B-8wS"/>
-                                                <constraint firstItem="M3C-0l-Tav" firstAttribute="bottom" secondItem="JrK-8X-HCS" secondAttribute="bottom" constant="-8" id="6cG-wr-QOs"/>
                                                 <constraint firstAttribute="trailing" secondItem="JrK-8X-HCS" secondAttribute="trailing" constant="16" id="BVp-dP-XCe"/>
                                                 <constraint firstItem="y9Z-8F-TpU" firstAttribute="top" secondItem="JrK-8X-HCS" secondAttribute="top" id="HWi-BB-ePm"/>
                                                 <constraint firstItem="y9Z-8F-TpU" firstAttribute="trailing" secondItem="JrK-8X-HCS" secondAttribute="trailing" id="OEz-oG-Czu"/>
-                                                <constraint firstItem="M3C-0l-Tav" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="JrK-8X-HCS" secondAttribute="trailing" constant="-8" id="RE3-dC-qRM"/>
+                                                <constraint firstItem="yV8-bz-AXh" firstAttribute="trailing" secondItem="JrK-8X-HCS" secondAttribute="trailing" id="Q07-iS-hhE"/>
                                                 <constraint firstItem="JrK-8X-HCS" firstAttribute="top" secondItem="xkb-xz-4gi" secondAttribute="top" constant="4" id="RPb-CD-nme"/>
+                                                <constraint firstItem="yV8-bz-AXh" firstAttribute="bottom" secondItem="JrK-8X-HCS" secondAttribute="bottom" id="Vfp-ma-J4m"/>
+                                                <constraint firstItem="yV8-bz-AXh" firstAttribute="leading" secondItem="JrK-8X-HCS" secondAttribute="leading" id="XFS-AA-MSx"/>
                                                 <constraint firstAttribute="bottom" secondItem="JrK-8X-HCS" secondAttribute="bottom" constant="4" id="hFU-6g-rv0"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <connections>
                                             <outlet property="cellImage" destination="JrK-8X-HCS" id="mA8-LK-riz"/>
-                                            <outlet property="dateLabel" destination="M3C-0l-Tav" id="agE-j8-s9X"/>
+                                            <outlet property="dateLabel" destination="LEc-Ae-sdO" id="Azy-pb-Q8S"/>
+                                            <outlet property="gradientView" destination="yV8-bz-AXh" id="16d-VE-Ogu"/>
                                             <outlet property="likeButton" destination="y9Z-8F-TpU" id="w0o-lj-ZTQ"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="BYZ-38-t0r" id="C55-8A-5Rs"/>
+                                    <outlet property="delegate" destination="BYZ-38-t0r" id="NQV-zM-bhz"/>
+                                </connections>
                             </tableView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
@@ -99,5 +123,8 @@
         <namedColor name="YP White">
             <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
+        <systemColor name="systemYellowColor">
+            <color red="1" green="0.80000000000000004" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
     </resources>
 </document>
