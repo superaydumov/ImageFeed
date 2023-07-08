@@ -8,9 +8,12 @@
 import UIKit
 
 class ImagesListViewController: UIViewController {
-
+    
+    // MARK: - Outlets
+    
     @IBOutlet private var tableView: UITableView!
     
+    // MARK: - Private properties
     private let photosName: [String] = Array(0..<20).map{ "\($0)" }
     
     private lazy var dateFormatter: DateFormatter = {
@@ -20,22 +23,39 @@ class ImagesListViewController: UIViewController {
         return formatter
     }()
     
+    // MARK: - UIStatusBarStyle
+    
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
     }
-
+    
+    // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
         tableView.dataSource = self
         tableView.delegate = self
         
-        tableView.register(ImagesListCell.self, forCellReuseIdentifier: ImagesListCell.reuseIdentifier)
         tableView.contentInset = UIEdgeInsets(top: 12, left: 0, bottom: 12, right: 0)
-        
     }
-
 }
+
+extension ImagesListViewController {
+    func configCell(for cell: ImagesListCell, with indexPath: IndexPath) {
+        guard let image = UIImage(named: photosName[indexPath.row]) else {
+            return
+        }
+
+        cell.cellImage.image = image
+        cell.dateLabel.text = dateFormatter.string(from: Date())
+
+        let isLiked = indexPath.row % 2 == 0
+        let likeImage = isLiked ? UIImage(named: "like button ON") : UIImage(named: "like button OFF")
+        cell.likeButton.setImage(likeImage, for: .normal)
+    }
+}
+
+    // MARK: - UITableViewDataSource
 
 extension ImagesListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -55,20 +75,7 @@ extension ImagesListViewController: UITableViewDataSource {
     }
 }
 
-extension ImagesListViewController {
-    func configCell(for cell: ImagesListCell, with indexPath: IndexPath) {
-        guard let image = UIImage(named: photosName[indexPath.row]) else {
-            return
-        }
-
-        cell.cellImage.image = image
-        cell.dateLabel.text = dateFormatter.string(from: Date())
-
-        let isLiked = indexPath.row % 2 == 0
-        let likeImage = isLiked ? UIImage(named: "like_button_on") : UIImage(named: "like_button_off")
-        cell.likeButton.setImage(likeImage, for: .normal)
-    }
-}
+    // MARK: - UITableViewDelegate
 
 extension ImagesListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {}
