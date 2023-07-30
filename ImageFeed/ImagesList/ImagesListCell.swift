@@ -27,7 +27,9 @@ extension ImagesListCell {
         let likeImage = isLiked ? UIImage(named: "like_button_ON") : UIImage(named: "like_button_OFF")
         likeButton.setImage(likeImage, for: .normal)
     }
-    
+}
+
+extension ImagesListCell {
     func gradientViewSet(_ cell: ImagesListCell) {
         let gradientViewLayer = CAGradientLayer()
         let topColor = UIColor(red: 0.27, green: 0.26, blue: 0.34, alpha: 0.00)

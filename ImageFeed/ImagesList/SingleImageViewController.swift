@@ -18,8 +18,8 @@ final class SingleImageViewController: UIViewController {
         }
     }
     // MARK: - IBOutlets
-    @IBOutlet weak var singleImageView: UIImageView!
-    @IBOutlet weak var scrollView: UIScrollView!
+    @IBOutlet private weak var singleImageView: UIImageView!
+    @IBOutlet private weak var scrollView: UIScrollView!
     
     // MARK: - Lifecycle
     override func viewDidLoad() {
@@ -58,7 +58,7 @@ final class SingleImageViewController: UIViewController {
         dismiss(animated: true, completion: nil)
     }
     
-    @IBAction func didTapShareButton(_ sender: Any) {
+    @IBAction private func didTapShareButton(_ sender: Any) {
         let share = UIActivityViewController(activityItems: [image], applicationActivities: nil)
         present(share, animated: true)
     }
