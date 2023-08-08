@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="S9h-Sv-CKc">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="FuI-15-7SX">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
@@ -135,6 +135,7 @@
                                 </buttonConfiguration>
                                 <connections>
                                     <action selector="loginButtonDidTap:" destination="5n8-Rz-rub" eventType="touchUpInside" id="iK9-zG-FQp"/>
+                                    <segue destination="eSB-rp-iBO" kind="presentation" identifier="ShowWebView" modalPresentationStyle="overFullScreen" id="lEz-3X-DB5"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -156,6 +157,55 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkD-xE-wm9" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1816" y="1071"/>
+        </scene>
+        <!--Web View View Controller-->
+        <scene sceneID="6KQ-ZH-fdX">
+            <objects>
+                <viewController id="eSB-rp-iBO" customClass="WebViewViewController" customModule="ImageFeed" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="JZP-u3-OuS">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <wkWebView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="GhO-oL-7dO">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                                <color key="backgroundColor" name="YP White"/>
+                                <wkWebViewConfiguration key="configuration">
+                                    <audiovisualMediaTypes key="mediaTypesRequiringUserActionForPlayback" none="YES"/>
+                                    <wkPreferences key="preferences"/>
+                                </wkWebViewConfiguration>
+                            </wkWebView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eY7-oE-e1A">
+                                <rect key="frame" x="9" y="9" width="24" height="24"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="24" id="TXe-bN-Ja4"/>
+                                    <constraint firstAttribute="height" constant="24" id="hb9-gv-ZeW"/>
+                                </constraints>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                <state key="normal" image="nav_back_button"/>
+                                <connections>
+                                    <action selector="didTapBackButton:" destination="eSB-rp-iBO" eventType="touchUpInside" id="bSv-M9-FTv"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="pSf-0X-5el"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="GhO-oL-7dO" firstAttribute="top" secondItem="JZP-u3-OuS" secondAttribute="top" id="4ls-f6-4OJ"/>
+                            <constraint firstAttribute="trailing" secondItem="GhO-oL-7dO" secondAttribute="trailing" id="MQA-in-iA5"/>
+                            <constraint firstItem="GhO-oL-7dO" firstAttribute="leading" secondItem="JZP-u3-OuS" secondAttribute="leading" id="TIF-VR-6oI"/>
+                            <constraint firstItem="eY7-oE-e1A" firstAttribute="leading" secondItem="pSf-0X-5el" secondAttribute="leading" constant="9" id="orQ-q8-o8Z"/>
+                            <constraint firstItem="eY7-oE-e1A" firstAttribute="top" secondItem="pSf-0X-5el" secondAttribute="top" constant="9" id="rd0-wh-cYf"/>
+                            <constraint firstAttribute="bottom" secondItem="GhO-oL-7dO" secondAttribute="bottom" id="zeG-aP-xeJ"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="doM-HS-ygO"/>
+                    <connections>
+                        <outlet property="webView" destination="GhO-oL-7dO" id="dK1-Ix-0DE"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="g5h-Yr-OtK" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2632" y="1071"/>
         </scene>
         <!--Profile View Controller-->
         <scene sceneID="2cR-fz-tcG">
@@ -288,6 +338,7 @@
     <resources>
         <image name="backward_button" width="24" height="24"/>
         <image name="like_button_ON" width="44" height="44"/>
+        <image name="nav_back_button" width="24" height="24"/>
         <image name="share_button" width="50" height="50"/>
         <image name="tab_editorial_active" width="30" height="30"/>
         <image name="tab_profile_Active" width="30" height="30"/>
@@ -298,6 +349,9 @@
         <namedColor name="YP White">
             <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
         <systemColor name="systemYellowColor">
             <color red="1" green="0.80000000000000004" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>

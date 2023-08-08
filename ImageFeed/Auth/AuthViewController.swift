@@ -10,7 +10,19 @@ import WebKit
 
 final class AuthViewController: UIViewController {
     
+    private let webSegueIdentifier = "ShowWebView"
+    
     @IBOutlet weak var loginButton: UIButton!
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == webSegueIdentifier {
+            guard let webViewViewController = segue.destination as? WebViewViewController else {
+                fatalError("Failed to prepare for \(webSegueIdentifier)") }
+            webViewViewController.delegate = self
+        } else {
+            super.prepare(for: segue, sender: sender)
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,5 +40,17 @@ final class AuthViewController: UIViewController {
     
     @IBAction func loginButtonDidTap(_ sender: Any) {
     }
+    
+}
+
+extension AuthViewController: WebViewViewControllerDelegate {
+    func webViewViewController(_vc: WebViewViewController, didAuthenticateWithCode code: String) {
+        //code to write
+    }
+    
+    func webViewViewControllerDidCancel(_vc: WebViewViewController) {
+        dismiss(animated: true)
+    }
+    
     
 }
