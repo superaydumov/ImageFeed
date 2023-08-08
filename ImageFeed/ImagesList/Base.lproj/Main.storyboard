@@ -113,6 +113,50 @@
             </objects>
             <point key="canvasLocation" x="51" y="-2"/>
         </scene>
+        <!--Auth View Controller-->
+        <scene sceneID="7hg-Jy-8X5">
+            <objects>
+                <viewController id="5n8-Rz-rub" customClass="AuthViewController" customModule="ImageFeed" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="sMV-cr-TIF">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="unsplash_logo" translatesAutoresizingMaskIntoConstraints="NO" id="fv1-6z-icI">
+                                <rect key="frame" x="177" y="447" width="60" height="60"/>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wFA-l1-5uL">
+                                <rect key="frame" x="16" y="724" width="382" height="48"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="48" id="aOe-dG-Q4K"/>
+                                </constraints>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="button">
+                                    <fontDescription key="titleFontDescription" type="system" pointSize="13"/>
+                                </buttonConfiguration>
+                                <connections>
+                                    <action selector="loginButtonDidTap:" destination="5n8-Rz-rub" eventType="touchUpInside" id="iK9-zG-FQp"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="UWh-F5-7NR"/>
+                        <color key="backgroundColor" name="YP Black"/>
+                        <constraints>
+                            <constraint firstItem="UWh-F5-7NR" firstAttribute="bottom" secondItem="wFA-l1-5uL" secondAttribute="bottom" constant="90" id="7kR-c5-IwU"/>
+                            <constraint firstItem="fv1-6z-icI" firstAttribute="centerX" secondItem="UWh-F5-7NR" secondAttribute="centerX" id="Bce-3D-LfT"/>
+                            <constraint firstItem="fv1-6z-icI" firstAttribute="centerY" secondItem="UWh-F5-7NR" secondAttribute="centerY" id="Yg7-HV-AxD"/>
+                            <constraint firstItem="wFA-l1-5uL" firstAttribute="leading" secondItem="UWh-F5-7NR" secondAttribute="leading" constant="16" id="cOT-f0-qbr"/>
+                            <constraint firstItem="UWh-F5-7NR" firstAttribute="trailing" secondItem="wFA-l1-5uL" secondAttribute="trailing" constant="16" id="r41-hG-pVg"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="fBX-hq-sua"/>
+                    <connections>
+                        <outlet property="loginButton" destination="wFA-l1-5uL" id="Lt7-gp-5Pa"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkD-xE-wm9" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1816" y="1071"/>
+        </scene>
         <!--Profile View Controller-->
         <scene sceneID="2cR-fz-tcG">
             <objects>
@@ -222,6 +266,24 @@
             </objects>
             <point key="canvasLocation" x="982.60869565217399" y="-2.0089285714285712"/>
         </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="YiR-GO-4ee">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="FuI-15-7SX" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="hRs-O2-o4r">
+                        <rect key="frame" x="0.0" y="48" width="414" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="5n8-Rz-rub" kind="relationship" relationship="rootViewController" id="vxg-hd-bO8"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="CgZ-2H-Mdj" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="983" y="1071"/>
+        </scene>
     </scenes>
     <resources>
         <image name="backward_button" width="24" height="24"/>
@@ -229,6 +291,7 @@
         <image name="share_button" width="50" height="50"/>
         <image name="tab_editorial_active" width="30" height="30"/>
         <image name="tab_profile_Active" width="30" height="30"/>
+        <image name="unsplash_logo" width="60" height="60"/>
         <namedColor name="YP Black">
             <color red="0.10199999809265137" green="0.10599999874830246" blue="0.13300000131130219" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
