@@ -9,12 +9,7 @@ import Foundation
 import WebKit
 
 fileprivate let UnsplashAuthorizeURLString = "https://unsplash.com/oauth/authorize"
-let constants = Constants()
-
-protocol WebViewViewControllerDelegate: AnyObject {
-    func webViewViewController(_vc: WebViewViewController, didAuthenticateWithCode code: String)
-    func webViewViewControllerDidCancel(_vc: WebViewViewController)
-}
+fileprivate let constants = Constants()
 
 final class WebViewViewController: UIViewController {
     
@@ -41,8 +36,8 @@ final class WebViewViewController: UIViewController {
         webView.load(request)
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         
         webView.addObserver(self,
                             forKeyPath: #keyPath(WKWebView.estimatedProgress),
@@ -51,8 +46,8 @@ final class WebViewViewController: UIViewController {
         updateProgress()
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
         webView.removeObserver(self,
                                forKeyPath: #keyPath(WKWebView.estimatedProgress),
                                context: nil)
@@ -83,6 +78,7 @@ final class WebViewViewController: UIViewController {
 extension WebViewViewController: WKNavigationDelegate {
     func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
         if let code = code (from: navigationAction) {
+            delegate?.webViewViewController(_vc: self, didAuthenticateWithCode: code)
             decisionHandler(.cancel)
         } else {
             decisionHandler(.allow)

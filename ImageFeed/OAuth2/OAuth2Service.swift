@@ -7,6 +7,8 @@
 
 import Foundation
 
+fileprivate let constants = Constants()
+
 final class OAuth2Service {
     
     // MARK: - Properties
