@@ -9,7 +9,7 @@ import Foundation
 import WebKit
 
 fileprivate let UnsplashAuthorizeURLString = "https://unsplash.com/oauth/authorize"
-fileprivate let constants = Constants()
+let constants = Constants()
 
 protocol WebViewViewControllerDelegate: AnyObject {
     func webViewViewController(_vc: WebViewViewController, didAuthenticateWithCode code: String)
