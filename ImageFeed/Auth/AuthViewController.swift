@@ -12,6 +12,8 @@ final class AuthViewController: UIViewController {
     
     private let webSegueIdentifier = "ShowWebView"
     
+    weak var delegate: AuthViewControllerDelegate?
+    
     @IBOutlet weak var loginButton: UIButton!
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -37,15 +39,11 @@ final class AuthViewController: UIViewController {
         loginButton.backgroundColor = .ypWhite
         loginButton.layer.cornerRadius = 16
     }
-    
-    @IBAction func loginButtonDidTap(_ sender: Any) {
-    }
-    
 }
 
 extension AuthViewController: WebViewViewControllerDelegate {
     func webViewViewController(_vc: WebViewViewController, didAuthenticateWithCode code: String) {
-        //code to write
+        delegate?.authViewController(self, didAuthenticateWithCode: code)
     }
     
     func webViewViewControllerDidCancel(_vc: WebViewViewController) {

@@ -27,7 +27,7 @@ final class OAuth2Service {
     
     // MARK: - Public functions 
     
-    func fetchOAuthToken(_ code: String, completion: @escaping (Result<String, Error>) -> Void) {
+    func fetchAuthToken(_ code: String, completion: @escaping (Result<String, Error>) -> Void) {
         let request = authTokenRequest(code: code)
         let task = object(for:request) { [weak self] result in
             guard let self = self else { return }
@@ -61,7 +61,7 @@ extension OAuth2Service {
             URLRequest.makeHTTPRequest(path: "/me", httpMethod: "GET")
     }
         
-    func profileImangeURLRequest(username: String) -> URLRequest {
+    func profileImageURLRequest(username: String) -> URLRequest {
             URLRequest.makeHTTPRequest(path: "/users/\(username)", httpMethod: "GET")
     }
         
@@ -80,12 +80,12 @@ extension OAuth2Service {
         URLRequest.makeHTTPRequest(path: "/photos/\(photoId)/like", httpMethod: "DELETE")
     }
     
-    private func authTokenRequest(code: String) -> URLRequest {
+    func authTokenRequest(code: String) -> URLRequest {
         URLRequest.makeHTTPRequest(
             path: "/oauth/token"
             + "?client_id=\(constants.accessKey)"
             + "&&client_secret=\(constants.secretKey)"
-            + "&&redurect_uri=\(constants.redirectURI)"
+            + "&&redirect_uri=\(constants.redirectURI)"
             + "&&code=\(code)"
             + "&&grant_type=authorization_code",
             httpMethod: "POST",
