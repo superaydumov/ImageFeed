@@ -53,7 +53,7 @@ extension SplashViewController {
             guard
                 let navigationController = segue.destination as? UINavigationController,
                 let viewCotroller = navigationController.viewControllers[0] as? AuthViewController
-            else { fatalError("Failed to prepare for \(ShowAuthentificationScreenSegueIdentifier)")}
+            else { return }
             viewCotroller.delegate = self
         } else {
             super.prepare(for: segue, sender: sender)
