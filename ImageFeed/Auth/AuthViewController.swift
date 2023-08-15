@@ -10,11 +10,19 @@ import WebKit
 
 final class AuthViewController: UIViewController {
     
+    // MARK: - IBOutlets
+    
+    @IBOutlet private weak var loginButton: UIButton!
+    
+    // MARK: - Private properties
+    
     private let webSegueIdentifier = "ShowWebView"
+    
+    // MARK: - Public properties
     
     weak var delegate: AuthViewControllerDelegate?
     
-    @IBOutlet weak var loginButton: UIButton!
+    // MARK: - Lifecycle
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == webSegueIdentifier {
@@ -31,7 +39,9 @@ final class AuthViewController: UIViewController {
         loginButtonUISetup()
     }
     
-    func loginButtonUISetup() {
+    // MARK: - Private methods
+    
+    private func loginButtonUISetup() {
         loginButton.layer.masksToBounds = true
         loginButton.setTitle("Войти", for: .normal)
         loginButton.titleLabel?.font = UIFont.systemFont(ofSize: 17, weight: .bold)
@@ -41,6 +51,8 @@ final class AuthViewController: UIViewController {
     }
 }
 
+    // MARK: - WebViewViewControllerDelegate
+
 extension AuthViewController: WebViewViewControllerDelegate {
     func webViewViewController(_vc: WebViewViewController, didAuthenticateWithCode code: String) {
         delegate?.authViewController(self, didAuthenticateWithCode: code)
@@ -49,6 +61,4 @@ extension AuthViewController: WebViewViewControllerDelegate {
     func webViewViewControllerDidCancel(_vc: WebViewViewController) {
         dismiss(animated: true)
     }
-    
-    
 }

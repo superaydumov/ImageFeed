@@ -9,10 +9,12 @@ import UIKit
 
 final class ProfileViewController: UIViewController {
     
-    // MARK: - Properties
+    // MARK: - Private properties
+    
     private var label: UILabel?
     
     // MARK: - Lifecycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -23,7 +25,14 @@ final class ProfileViewController: UIViewController {
         infoLabelUISetup()
     }
     
-    // MARK: - UISetup Functions
+    // MARK: - UIStatusBarStyle
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        .lightContent
+    }
+    
+    // MARK: - UISetup methods
+    
     private func imageUISetup() {
         let profileImage = UIImage(named: "userpick_stub")
         let imageView = UIImageView(image: profileImage)
@@ -87,6 +96,7 @@ final class ProfileViewController: UIViewController {
         infoLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 169).isActive = true
     }
     
+    // MARK: - @objc methods
     @objc
     private func didTapLogoutButton() {
         label?.removeFromSuperview()

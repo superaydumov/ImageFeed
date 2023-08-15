@@ -118,21 +118,20 @@
             <objects>
                 <viewController id="5n8-Rz-rub" customClass="AuthViewController" customModule="ImageFeed" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="sMV-cr-TIF">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="886"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="unsplash_logo" translatesAutoresizingMaskIntoConstraints="NO" id="fv1-6z-icI">
-                                <rect key="frame" x="177" y="441" width="60" height="60"/>
+                                <rect key="frame" x="177" y="440" width="60" height="60"/>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wFA-l1-5uL">
-                                <rect key="frame" x="16" y="748" width="382" height="48"/>
+                                <rect key="frame" x="16" y="758" width="382" height="48"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="48" id="aOe-dG-Q4K"/>
                                 </constraints>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" title="button">
-                                    <fontDescription key="titleFontDescription" type="system" pointSize="13"/>
-                                </buttonConfiguration>
+                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                <state key="normal" title="button"/>
                                 <connections>
                                     <segue destination="eSB-rp-iBO" kind="presentation" identifier="ShowWebView" modalPresentationStyle="overFullScreen" id="lEz-3X-DB5"/>
                                 </connections>
@@ -150,7 +149,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="fBX-hq-sua"/>
                     <connections>
-                        <outlet property="loginButton" destination="wFA-l1-5uL" id="Lt7-gp-5Pa"/>
+                        <outlet property="loginButton" destination="wFA-l1-5uL" id="7Te-yw-tgL"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkD-xE-wm9" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -254,7 +253,7 @@
                         </constraints>
                     </view>
                     <connections>
-                        <segue destination="FuI-15-7SX" kind="presentation" identifier="ShowAuthenticationScreen" id="1AV-tv-883"/>
+                        <segue destination="FuI-15-7SX" kind="presentation" identifier="ShowAuthenticationScreen" modalPresentationStyle="fullScreen" id="1AV-tv-883"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="974-Lc-Khk" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -360,7 +359,7 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="FuI-15-7SX" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="hRs-O2-o4r">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="56"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>

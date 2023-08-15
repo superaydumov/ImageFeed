@@ -7,13 +7,13 @@
 
 import Foundation
 
-fileprivate let constants = Constants()
-
 final class OAuth2Service {
     
-    // MARK: - Properties
+    // MARK: - Constants
     
     static let shared = OAuth2Service()
+    private init() { }
+    
     private let urlSession = URLSession.shared
     
     private (set) var authToken: String? {
@@ -49,6 +49,8 @@ extension OAuth2Service {
                         completion: @escaping (Result<OAuthTokenResponseBody, Error>) -> Void)
     -> URLSessionTask {
         let decoder = JSONDecoder()
+        decoder.keyDecodingStrategy = .convertFromSnakeCase
+        
         return urlSession.data(for: request) { (result: Result<Data, Error>) in
             let response = result.flatMap { data -> Result<OAuthTokenResponseBody, Error> in
                 Result { try decoder.decode(OAuthTokenResponseBody.self, from: data) }
@@ -83,13 +85,13 @@ extension OAuth2Service {
     func authTokenRequest(code: String) -> URLRequest {
         URLRequest.makeHTTPRequest(
             path: "/oauth/token"
-            + "?client_id=\(constants.accessKey)"
-            + "&&client_secret=\(constants.secretKey)"
-            + "&&redirect_uri=\(constants.redirectURI)"
+            + "?client_id=\(Constants.accessKey)"
+            + "&&client_secret=\(Constants.secretKey)"
+            + "&&redirect_uri=\(Constants.redirectURI)"
             + "&&code=\(code)"
             + "&&grant_type=authorization_code",
             httpMethod: "POST",
-            baseURL: URL(string: "https://unsplash.com")!)
+            baseURL: Constants.baseURL)
     }
 }
 
@@ -98,7 +100,7 @@ extension OAuth2Service {
 extension URLRequest {
     static func makeHTTPRequest(path: String,
                                 httpMethod: String,
-                                baseURL: URL = constants.defaultbaseURL) -> URLRequest {
+                                baseURL: URL = Constants.defaultbaseURL) -> URLRequest {
         var request = URLRequest(url: URL(string: path, relativeTo: baseURL)!)
         request.httpMethod = httpMethod
         return request

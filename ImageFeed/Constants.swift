@@ -8,10 +8,13 @@
 import Foundation
 
 struct Constants {
-    let accessKey = "5cknYblskv1f9HgymUwDSz7X5dGqM9-0f1mpmVzebqU"
-    let secretKey = "CH3eNm3fTDWw60be512fQT8usbv6Gfw4Z7jsYnJv9z8"
-    let redirectURI = "urn:ietf:wg:oauth:2.0:oob"
+    static let accessKey = "5cknYblskv1f9HgymUwDSz7X5dGqM9-0f1mpmVzebqU"
+    static let secretKey = "CH3eNm3fTDWw60be512fQT8usbv6Gfw4Z7jsYnJv9z8"
+    static let redirectURI = "urn:ietf:wg:oauth:2.0:oob"
     
-    let accessScope = "public+read_user+write_likes"
-    let defaultbaseURL = URL (string: "https://api.unsplash.com/")!
+    static let accessScope = "public+read_user+write_likes"
+    static let defaultbaseURL = URL (string: "https://api.unsplash.com/")!
+    
+    static let UnsplashAuthorizeURLString = "https://unsplash.com/oauth/authorize"
+    static let baseURL = URL(string: "https://unsplash.com")!
 }
