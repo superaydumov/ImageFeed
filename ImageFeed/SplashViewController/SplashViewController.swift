@@ -15,6 +15,7 @@ final class SplashViewController: UIViewController {
     private let showAuthentificationScreenSegueIdentifier = "ShowAuthenticationScreen"
     private let oauth2TokenStorage = OAuth2TokenStorage.shared
     private let oauth2Service = OAuth2Service.shared
+    private var alertPresenter: AlertPresenterProtocol?
     
     // MARK: - Lifecycle
     
@@ -78,10 +79,11 @@ extension SplashViewController: AuthViewControllerDelegate {
             case .success:
                 self.switchToTabBarController()
             case .failure:
-                let alert = UIAlertController(title: "Error", message: "There's a problem with token!", preferredStyle:.alert)
-                let action = UIAlertAction(title: "Ok", style: .default, handler: nil)
-                alert.addAction(action)
-                self.present(alert, animated: true, completion: nil)
+                let alertModel = AlertModel(title: "Error", message: "There's a problem with token!", buttonText: "Ok", completion: { [weak self] in
+                    guard let self else { return }
+                    //code to write to handle pushinhg "Ok alert button
+                })
+                alertPresenter?.showAlert(model: alertModel)
                 break
             }
         }

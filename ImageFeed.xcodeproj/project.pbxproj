@@ -22,6 +22,9 @@
 		C98A17C12A85957B008FBD2A /* AuthViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98A17C02A85957B008FBD2A /* AuthViewControllerDelegate.swift */; };
 		C98A17C42A859C28008FBD2A /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98A17C32A859C28008FBD2A /* SplashViewController.swift */; };
 		C9BD1E622A589CCA0052C9BD /* ImagesListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9BD1E612A589CCA0052C9BD /* ImagesListCell.swift */; };
+		C9F1C1EA2A8D130B00B77061 /* AlertModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F1C1E92A8D130B00B77061 /* AlertModel.swift */; };
+		C9F1C1EC2A8D138300B77061 /* AlertPresenterProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F1C1EB2A8D138300B77061 /* AlertPresenterProtocol.swift */; };
+		C9F1C1EF2A8D149D00B77061 /* AlertPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F1C1EE2A8D149D00B77061 /* AlertPresenter.swift */; };
 		C9F38C002A7C516400C83E4A /* AuthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F38BFF2A7C516400C83E4A /* AuthViewController.swift */; };
 		C9F38C032A828B0000C83E4A /* WebViewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F38C022A828B0000C83E4A /* WebViewViewController.swift */; };
 		C9FFC1D12A6BDC4500C859BE /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9FFC1D02A6BDC4500C859BE /* ProfileViewController.swift */; };
@@ -46,6 +49,9 @@
 		C98A17C02A85957B008FBD2A /* AuthViewControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewControllerDelegate.swift; sourceTree = "<group>"; };
 		C98A17C32A859C28008FBD2A /* SplashViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashViewController.swift; sourceTree = "<group>"; };
 		C9BD1E612A589CCA0052C9BD /* ImagesListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagesListCell.swift; sourceTree = "<group>"; };
+		C9F1C1E92A8D130B00B77061 /* AlertModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertModel.swift; sourceTree = "<group>"; };
+		C9F1C1EB2A8D138300B77061 /* AlertPresenterProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertPresenterProtocol.swift; sourceTree = "<group>"; };
+		C9F1C1EE2A8D149D00B77061 /* AlertPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertPresenter.swift; sourceTree = "<group>"; };
 		C9F38BFF2A7C516400C83E4A /* AuthViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewController.swift; sourceTree = "<group>"; };
 		C9F38C022A828B0000C83E4A /* WebViewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewViewController.swift; sourceTree = "<group>"; };
 		C9FFC1D02A6BDC4500C859BE /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
@@ -97,6 +103,7 @@
 				C98A17C22A859BF8008FBD2A /* SplashViewController */,
 				C98A17B82A851F8A008FBD2A /* OAuth2 */,
 				C9F38BFE2A7C514100C83E4A /* Auth */,
+				C9F1C1ED2A8D144600B77061 /* AlertPresenter */,
 				C98A17BD2A8594CA008FBD2A /* Services */,
 				C946407A2A785A4C003215B3 /* SingleImageViewController */,
 				C94640792A785A35003215B3 /* ProfileViewController */,
@@ -138,6 +145,7 @@
 			isa = PBXGroup;
 			children = (
 				C98A17B62A851EE3008FBD2A /* OAuthTokenResponseBody.swift */,
+				C9F1C1E92A8D130B00B77061 /* AlertModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -156,6 +164,7 @@
 			children = (
 				C98A17BE2A859505008FBD2A /* WebViewViewControllerDelegate.swift */,
 				C98A17C02A85957B008FBD2A /* AuthViewControllerDelegate.swift */,
+				C9F1C1EB2A8D138300B77061 /* AlertPresenterProtocol.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -175,6 +184,14 @@
 				C9BD1E612A589CCA0052C9BD /* ImagesListCell.swift */,
 			);
 			path = ImagesList;
+			sourceTree = "<group>";
+		};
+		C9F1C1ED2A8D144600B77061 /* AlertPresenter */ = {
+			isa = PBXGroup;
+			children = (
+				C9F1C1EE2A8D149D00B77061 /* AlertPresenter.swift */,
+			);
+			path = AlertPresenter;
 			sourceTree = "<group>";
 		};
 		C9F38BFE2A7C514100C83E4A /* Auth */ = {
@@ -269,7 +286,10 @@
 				C9BD1E622A589CCA0052C9BD /* ImagesListCell.swift in Sources */,
 				C94222862A544CBD0005A92B /* SceneDelegate.swift in Sources */,
 				C942229B2A54B70F0005A92B /* UIColorExtension.swift in Sources */,
+				C9F1C1EA2A8D130B00B77061 /* AlertModel.swift in Sources */,
+				C9F1C1EC2A8D138300B77061 /* AlertPresenterProtocol.swift in Sources */,
 				C9F38C002A7C516400C83E4A /* AuthViewController.swift in Sources */,
+				C9F1C1EF2A8D149D00B77061 /* AlertPresenter.swift in Sources */,
 				C98A17BC2A852094008FBD2A /* OAuth2TokenStorage.swift in Sources */,
 				C946407C2A785A90003215B3 /* Constants.swift in Sources */,
 				C98A17C42A859C28008FBD2A /* SplashViewController.swift in Sources */,
