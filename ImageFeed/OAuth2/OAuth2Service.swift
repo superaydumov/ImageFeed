@@ -33,8 +33,8 @@ final class OAuth2Service {
             guard let self = self else { return }
             switch result {
             case .success (let body):
-                guard let authToken = authToken else {return}
-                self.authToken = body.accessToken
+                let authToken = body.accessToken
+                self.authToken = authToken
                 completion(.success(authToken))
             case .failure(let error):
                 completion(.failure(error))
