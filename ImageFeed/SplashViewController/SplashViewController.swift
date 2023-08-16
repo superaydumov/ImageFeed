@@ -12,8 +12,8 @@ final class SplashViewController: UIViewController {
     
     // MARK: - Private properties
     
-    private let ShowAuthentificationScreenSegueIdentifier = "ShowAuthenticationScreen"
-    private let oauth2TokenStorage = OAuth2TokenStorage()
+    private let showAuthentificationScreenSegueIdentifier = "ShowAuthenticationScreen"
+    private let oauth2TokenStorage = OAuth2TokenStorage.shared
     private let oauth2Service = OAuth2Service.shared
     
     // MARK: - Lifecycle
@@ -23,7 +23,7 @@ final class SplashViewController: UIViewController {
         if oauth2TokenStorage.token != nil {
             switchToTabBarController()
         } else {
-            performSegue(withIdentifier: ShowAuthentificationScreenSegueIdentifier, sender: nil)
+            performSegue(withIdentifier: showAuthentificationScreenSegueIdentifier, sender: nil)
         }
     }
     
@@ -49,10 +49,10 @@ final class SplashViewController: UIViewController {
 
 extension SplashViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == ShowAuthentificationScreenSegueIdentifier {
+        if segue.identifier == showAuthentificationScreenSegueIdentifier {
             guard
                 let navigationController = segue.destination as? UINavigationController,
-                let viewCotroller = navigationController.viewControllers[0] as? AuthViewController
+                let viewCotroller = navigationController.viewControllers.first as? AuthViewController
             else { return }
             viewCotroller.delegate = self
         } else {
