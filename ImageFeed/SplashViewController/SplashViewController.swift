@@ -79,9 +79,9 @@ extension SplashViewController: AuthViewControllerDelegate {
             case .success:
                 self.switchToTabBarController()
             case .failure:
-                let alertModel = AlertModel(title: "Error", message: "There's a problem with token!", buttonText: "Ok", completion: { [weak self] in
-                    guard let self else { return }
-                    //code to write to handle pushinhg "Ok alert button
+                let alertModel = AlertModel(title: "Error", message: "There's a problem with token!", buttonText: "Ok", completion: {
+                    print ("Ok button is clicked.")
+                    //code to write to handle pushinhg "Ok" alert button
                 })
                 alertPresenter?.showAlert(model: alertModel)
                 break
