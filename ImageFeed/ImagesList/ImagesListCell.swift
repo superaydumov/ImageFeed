@@ -8,13 +8,17 @@
 import UIKit
 
 final class ImagesListCell: UITableViewCell {
-    static let reuseIdentifier = "ImagesListCell"
+    
+    // MARK: - OBOutlets
     
     @IBOutlet private var cellImage: UIImageView!
     @IBOutlet private var likeButton: UIButton!
     @IBOutlet private var dateLabel: UILabel!
     @IBOutlet private var gradientView: UIView!
     
+    // MARK: - Constants
+    
+    static let reuseIdentifier = "ImagesListCell"
 }
 
 extension ImagesListCell {

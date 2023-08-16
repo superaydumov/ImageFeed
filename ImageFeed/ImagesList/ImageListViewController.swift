@@ -7,13 +7,14 @@
 
 import UIKit
 
-class ImagesListViewController: UIViewController {
+final class ImagesListViewController: UIViewController {
     
-    // MARK: - Outlets
+    // MARK: - IBOutlets
     
     @IBOutlet private var tableView: UITableView!
     
     // MARK: - Private properties
+    
     private let photosName: [String] = Array(0..<20).map{ "\($0)" }
     private let showSingleImageSegueIdentifier = "ShowSingleImage"
     
