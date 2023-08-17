@@ -39,6 +39,12 @@ final class AuthViewController: UIViewController {
         loginButtonUISetup()
     }
     
+    // MARK: - UIStatusBarStyle
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        .lightContent
+    }
+    
     // MARK: - Private methods
     
     private func loginButtonUISetup() {

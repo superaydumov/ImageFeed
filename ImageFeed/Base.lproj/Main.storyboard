@@ -353,10 +353,10 @@
             </objects>
             <point key="canvasLocation" x="982.60869565217399" y="-2.0089285714285712"/>
         </scene>
-        <!--Navigation Controller-->
+        <!--Root Navigation Controller-->
         <scene sceneID="YiR-GO-4ee">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="FuI-15-7SX" sceneMemberID="viewController">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="FuI-15-7SX" customClass="RootNavigationController" customModule="ImageFeed" customModuleProvider="target" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="hRs-O2-o4r">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
