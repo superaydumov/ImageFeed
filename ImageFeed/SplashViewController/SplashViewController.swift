@@ -7,6 +7,7 @@
 
 import UIKit
 import WebKit
+import ProgressHUD
 
 final class SplashViewController: UIViewController {
     
@@ -66,6 +67,7 @@ extension SplashViewController {
 
 extension SplashViewController: AuthViewControllerDelegate {
     func authViewController(_ vc: AuthViewController, didAuthenticateWithCode code: String) {
+        ProgressHUD.show()
         dismiss(animated: true) { [weak self] in
             guard let self = self else { return }
             self.fetchOAuthToken(code)
@@ -77,8 +79,10 @@ extension SplashViewController: AuthViewControllerDelegate {
             guard let self = self else { return }
             switch result {
             case .success:
+                ProgressHUD.dismiss()
                 self.switchToTabBarController()
             case .failure:
+                ProgressHUD.dismiss()
                 let alertModel = AlertModel(title: "Error", message: "There's a problem with token!", buttonText: "Ok", completion: {
                     print ("Ok button is clicked.")
                     //code to write to handle pushinhg "Ok" alert button
