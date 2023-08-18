@@ -17,6 +17,9 @@ final class OAuth2Service {
     private let urlSession = URLSession.shared
     private let oauth2TokenStorage = OAuth2TokenStorage.shared
     
+    private var lastCode: String?
+    private var task: URLSessionTask?
+    
     private (set) var authToken: String? {
         get {
             return oauth2TokenStorage.token
@@ -29,17 +32,27 @@ final class OAuth2Service {
     // MARK: - Public functions 
     
     func fetchAuthToken(_ code: String, completion: @escaping (Result<String, Error>) -> Void) {
+        assert(Thread.isMainThread)
+        if lastCode == code { return }
+        task?.cancel()
+        lastCode = code
+        
         let request = authTokenRequest(code: code)
         let task = object(for:request) { [weak self] result in
             guard let self = self else { return }
-            switch result {
-            case .success (let body):
-                self.authToken = body.accessToken
-                completion(.success(body.accessToken))
-            case .failure(let error):
-                completion(.failure(error))
+            DispatchQueue.main.async {
+                switch result {
+                case .success (let body):
+                    self.task = nil
+                    self.authToken = body.accessToken
+                    completion(.success(body.accessToken))
+                case .failure(let error):
+                    self.lastCode = nil
+                    completion(.failure(error))
+                }
             }
         }
+        self.task = task
         task.resume()
     }
 }
