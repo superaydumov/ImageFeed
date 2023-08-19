@@ -23,6 +23,7 @@
 		C98A17C42A859C28008FBD2A /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98A17C32A859C28008FBD2A /* SplashViewController.swift */; };
 		C9BD1E622A589CCA0052C9BD /* ImagesListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9BD1E612A589CCA0052C9BD /* ImagesListCell.swift */; };
 		C9CF59222A8EBAD10050B833 /* ProgressHUD in Frameworks */ = {isa = PBXBuildFile; productRef = C9CF59212A8EBAD10050B833 /* ProgressHUD */; };
+		C9CF59242A9024880050B833 /* UIBlockingProgressHUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9CF59232A9024880050B833 /* UIBlockingProgressHUD.swift */; };
 		C9F1C1EA2A8D130B00B77061 /* AlertModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F1C1E92A8D130B00B77061 /* AlertModel.swift */; };
 		C9F1C1EC2A8D138300B77061 /* AlertPresenterProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F1C1EB2A8D138300B77061 /* AlertPresenterProtocol.swift */; };
 		C9F1C1EF2A8D149D00B77061 /* AlertPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F1C1EE2A8D149D00B77061 /* AlertPresenter.swift */; };
@@ -51,6 +52,7 @@
 		C98A17C02A85957B008FBD2A /* AuthViewControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewControllerDelegate.swift; sourceTree = "<group>"; };
 		C98A17C32A859C28008FBD2A /* SplashViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashViewController.swift; sourceTree = "<group>"; };
 		C9BD1E612A589CCA0052C9BD /* ImagesListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagesListCell.swift; sourceTree = "<group>"; };
+		C9CF59232A9024880050B833 /* UIBlockingProgressHUD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIBlockingProgressHUD.swift; sourceTree = "<group>"; };
 		C9F1C1E92A8D130B00B77061 /* AlertModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertModel.swift; sourceTree = "<group>"; };
 		C9F1C1EB2A8D138300B77061 /* AlertPresenterProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertPresenterProtocol.swift; sourceTree = "<group>"; };
 		C9F1C1EE2A8D149D00B77061 /* AlertPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertPresenter.swift; sourceTree = "<group>"; };
@@ -170,6 +172,7 @@
 				C98A17C02A85957B008FBD2A /* AuthViewControllerDelegate.swift */,
 				C9F1C1EB2A8D138300B77061 /* AlertPresenterProtocol.swift */,
 				C9F1C1F02A8E1C2900B77061 /* RootNavigationController.swift */,
+				C9CF59232A9024880050B833 /* UIBlockingProgressHUD.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -305,6 +308,7 @@
 				C98A17BC2A852094008FBD2A /* OAuth2TokenStorage.swift in Sources */,
 				C946407C2A785A90003215B3 /* Constants.swift in Sources */,
 				C98A17C42A859C28008FBD2A /* SplashViewController.swift in Sources */,
+				C9CF59242A9024880050B833 /* UIBlockingProgressHUD.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
