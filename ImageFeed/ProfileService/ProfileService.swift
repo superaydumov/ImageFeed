@@ -37,10 +37,12 @@ final class ProfileService {
             DispatchQueue.main.async {
                 switch result {
                 case .success (let body):
-                    let profile = Profile(userName: body.userName,
-                                          name: "\(body.firstName)" + " " + "\(body.lastName)",
-                                          loginName: "@\(body.userName)",
+                    let profile = Profile(username: body.username,
+                                          name: "\(body.firstName) \(body.lastName)",
+                                          loginName: "@\(body.username)",
                                           bio: body.bio)
+                    self.profile = profile
+                    
                     completion(.success(profile))
                 case .failure(let error):
                     completion(.failure(error))

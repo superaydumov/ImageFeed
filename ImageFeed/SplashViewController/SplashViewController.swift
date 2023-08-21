@@ -17,6 +17,7 @@ final class SplashViewController: UIViewController {
     private let oauth2TokenStorage = OAuth2TokenStorage.shared
     private let oauth2Service = OAuth2Service.shared
     private var alertPresenter: AlertPresenterProtocol?
+    private let profileService = ProfileService.shared
     
     // MARK: - Lifecycle
     
@@ -54,9 +55,9 @@ extension SplashViewController {
         if segue.identifier == showAuthentificationScreenSegueIdentifier {
             guard
                 let navigationController = segue.destination as? UINavigationController,
-                let viewCotroller = navigationController.viewControllers.first as? AuthViewController
+                let viewController = navigationController.viewControllers.first as? AuthViewController
             else { return }
-            viewCotroller.delegate = self
+            viewController.delegate = self
         } else {
             super.prepare(for: segue, sender: sender)
         }
@@ -78,9 +79,9 @@ extension SplashViewController: AuthViewControllerDelegate {
         oauth2Service.fetchAuthToken(code) { [weak self] result in
             guard let self = self else { return }
             switch result {
-            case .success:
+            case .success(let token):
+                self.fetchProfile(token: token)
                 UIBlockingProgressHUD.dismiss()
-                self.switchToTabBarController()
             case .failure:
                 UIBlockingProgressHUD.dismiss()
                 let alertModel = AlertModel(title: "Error", message: "There's a problem with token!", buttonText: "Ok", completion: {
@@ -88,6 +89,21 @@ extension SplashViewController: AuthViewControllerDelegate {
                     //code to write to handle pushinhg "Ok" alert button
                 })
                 alertPresenter?.showAlert(model: alertModel)
+                break
+            }
+        }
+    }
+    
+    private func fetchProfile(token: String) {
+        profileService.fetchProfile(token) { [weak self] result in
+            guard let self else { return }
+            switch result {
+            case .success:
+                UIBlockingProgressHUD.dismiss()
+                self.switchToTabBarController()
+            case .failure:
+                UIBlockingProgressHUD.dismiss()
+                print("Error with profile.")
                 break
             }
         }

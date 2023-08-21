@@ -30,7 +30,7 @@ final class ProfileViewController: UIViewController {
         loginLabelUISetup()
         infoLabelUISetup()
         
-        updateProfileInfo(profile: profileService.profile)
+        updateProfileDetails(profile: profileService.profile)
     }
     
     // MARK: - UIStatusBarStyle
@@ -41,7 +41,7 @@ final class ProfileViewController: UIViewController {
     
     // MARK: - Private methods
     
-    private func updateProfileInfo(profile: Profile?) {
+    private func updateProfileDetails(profile: Profile?) {
         guard let profile else { return }
         nameLabel.text = profile.name
         loginLabel.text = profile.loginName

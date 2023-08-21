@@ -8,7 +8,7 @@
 import Foundation
 
 struct ProfileResult: Codable {
-    let userName: String
+    let username: String
     let firstName: String
     let lastName: String
     let bio: String
