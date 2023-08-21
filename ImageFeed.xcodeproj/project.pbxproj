@@ -24,6 +24,9 @@
 		C9BD1E622A589CCA0052C9BD /* ImagesListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9BD1E612A589CCA0052C9BD /* ImagesListCell.swift */; };
 		C9CF59222A8EBAD10050B833 /* ProgressHUD in Frameworks */ = {isa = PBXBuildFile; productRef = C9CF59212A8EBAD10050B833 /* ProgressHUD */; };
 		C9CF59242A9024880050B833 /* UIBlockingProgressHUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9CF59232A9024880050B833 /* UIBlockingProgressHUD.swift */; };
+		C9CF59272A939A120050B833 /* ProfileService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9CF59262A939A120050B833 /* ProfileService.swift */; };
+		C9CF59292A939B540050B833 /* ProfileResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9CF59282A939B540050B833 /* ProfileResult.swift */; };
+		C9CF592B2A939BE30050B833 /* Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9CF592A2A939BE30050B833 /* Profile.swift */; };
 		C9F1C1EA2A8D130B00B77061 /* AlertModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F1C1E92A8D130B00B77061 /* AlertModel.swift */; };
 		C9F1C1EC2A8D138300B77061 /* AlertPresenterProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F1C1EB2A8D138300B77061 /* AlertPresenterProtocol.swift */; };
 		C9F1C1EF2A8D149D00B77061 /* AlertPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F1C1EE2A8D149D00B77061 /* AlertPresenter.swift */; };
@@ -53,6 +56,9 @@
 		C98A17C32A859C28008FBD2A /* SplashViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashViewController.swift; sourceTree = "<group>"; };
 		C9BD1E612A589CCA0052C9BD /* ImagesListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagesListCell.swift; sourceTree = "<group>"; };
 		C9CF59232A9024880050B833 /* UIBlockingProgressHUD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIBlockingProgressHUD.swift; sourceTree = "<group>"; };
+		C9CF59262A939A120050B833 /* ProfileService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileService.swift; sourceTree = "<group>"; };
+		C9CF59282A939B540050B833 /* ProfileResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileResult.swift; sourceTree = "<group>"; };
+		C9CF592A2A939BE30050B833 /* Profile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Profile.swift; sourceTree = "<group>"; };
 		C9F1C1E92A8D130B00B77061 /* AlertModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertModel.swift; sourceTree = "<group>"; };
 		C9F1C1EB2A8D138300B77061 /* AlertPresenterProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertPresenterProtocol.swift; sourceTree = "<group>"; };
 		C9F1C1EE2A8D149D00B77061 /* AlertPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertPresenter.swift; sourceTree = "<group>"; };
@@ -108,6 +114,7 @@
 				C98A17B52A851EBF008FBD2A /* Models */,
 				C98A17C22A859BF8008FBD2A /* SplashViewController */,
 				C98A17B82A851F8A008FBD2A /* OAuth2 */,
+				C9CF59252A9399D40050B833 /* ProfileService */,
 				C9F38BFE2A7C514100C83E4A /* Auth */,
 				C9F1C1ED2A8D144600B77061 /* AlertPresenter */,
 				C98A17BD2A8594CA008FBD2A /* Services */,
@@ -152,6 +159,8 @@
 			children = (
 				C98A17B62A851EE3008FBD2A /* OAuthTokenResponseBody.swift */,
 				C9F1C1E92A8D130B00B77061 /* AlertModel.swift */,
+				C9CF59282A939B540050B833 /* ProfileResult.swift */,
+				C9CF592A2A939BE30050B833 /* Profile.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -192,6 +201,14 @@
 				C9BD1E612A589CCA0052C9BD /* ImagesListCell.swift */,
 			);
 			path = ImagesList;
+			sourceTree = "<group>";
+		};
+		C9CF59252A9399D40050B833 /* ProfileService */ = {
+			isa = PBXGroup;
+			children = (
+				C9CF59262A939A120050B833 /* ProfileService.swift */,
+			);
+			path = ProfileService;
 			sourceTree = "<group>";
 		};
 		C9F1C1ED2A8D144600B77061 /* AlertPresenter */ = {
@@ -289,6 +306,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C9F38C032A828B0000C83E4A /* WebViewViewController.swift in Sources */,
+				C9CF592B2A939BE30050B833 /* Profile.swift in Sources */,
 				C9FFC1D12A6BDC4500C859BE /* ProfileViewController.swift in Sources */,
 				C94222882A544CBD0005A92B /* ImageListViewController.swift in Sources */,
 				C98A17C12A85957B008FBD2A /* AuthViewControllerDelegate.swift in Sources */,
@@ -301,6 +319,7 @@
 				C9F1C1F12A8E1C2900B77061 /* RootNavigationController.swift in Sources */,
 				C94222862A544CBD0005A92B /* SceneDelegate.swift in Sources */,
 				C942229B2A54B70F0005A92B /* UIColorExtension.swift in Sources */,
+				C9CF59292A939B540050B833 /* ProfileResult.swift in Sources */,
 				C9F1C1EA2A8D130B00B77061 /* AlertModel.swift in Sources */,
 				C9F1C1EC2A8D138300B77061 /* AlertPresenterProtocol.swift in Sources */,
 				C9F38C002A7C516400C83E4A /* AuthViewController.swift in Sources */,
@@ -309,6 +328,7 @@
 				C946407C2A785A90003215B3 /* Constants.swift in Sources */,
 				C98A17C42A859C28008FBD2A /* SplashViewController.swift in Sources */,
 				C9CF59242A9024880050B833 /* UIBlockingProgressHUD.swift in Sources */,
+				C9CF59272A939A120050B833 /* ProfileService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

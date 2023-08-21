@@ -13,6 +13,12 @@ final class ProfileViewController: UIViewController {
     
     private var label: UILabel?
     
+    private var nameLabel: UILabel!
+    private var loginLabel: UILabel!
+    private var infoLabel: UILabel!
+    
+    private let profileService = ProfileService.shared
+    
     // MARK: - Lifecycle
     
     override func viewDidLoad() {
@@ -23,12 +29,23 @@ final class ProfileViewController: UIViewController {
         nameLabelUISetup()
         loginLabelUISetup()
         infoLabelUISetup()
+        
+        updateProfileInfo(profile: profileService.profile)
     }
     
     // MARK: - UIStatusBarStyle
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
         .lightContent
+    }
+    
+    // MARK: - Private methods
+    
+    private func updateProfileInfo(profile: Profile?) {
+        guard let profile else { return }
+        nameLabel.text = profile.name
+        loginLabel.text = profile.loginName
+        infoLabel.text = profile.bio
     }
     
     // MARK: - UISetup methods
@@ -70,6 +87,8 @@ final class ProfileViewController: UIViewController {
         
         nameLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16).isActive = true
         nameLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 110).isActive = true
+        
+        self.nameLabel = nameLabel
     }
     
     private func loginLabelUISetup() {
@@ -82,6 +101,8 @@ final class ProfileViewController: UIViewController {
         
         loginLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16).isActive = true
         loginLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 145).isActive = true
+       
+        self.loginLabel = loginLabel
     }
     
     private func infoLabelUISetup() {
@@ -94,6 +115,8 @@ final class ProfileViewController: UIViewController {
         
         infoLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16).isActive = true
         infoLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 169).isActive = true
+        
+        self.infoLabel = infoLabel
     }
     
     // MARK: - @objc methods
