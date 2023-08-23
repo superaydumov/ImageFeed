@@ -18,6 +18,7 @@ final class SplashViewController: UIViewController {
     private let oauth2Service = OAuth2Service.shared
     private var alertPresenter: AlertPresenterProtocol?
     private let profileService = ProfileService.shared
+    private let profileImageService = ProfileImageService.shared
     
     // MARK: - Lifecycle
     
@@ -98,8 +99,9 @@ extension SplashViewController: AuthViewControllerDelegate {
         profileService.fetchProfile(token) { [weak self] result in
             guard let self else { return }
             switch result {
-            case .success:
+            case .success(let data):
                 UIBlockingProgressHUD.dismiss()
+                profileImageService.fetchProfileImageURL(token: token, username: data.username) { _ in }
                 self.switchToTabBarController()
             case .failure:
                 UIBlockingProgressHUD.dismiss()
