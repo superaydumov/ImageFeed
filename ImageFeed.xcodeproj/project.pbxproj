@@ -118,19 +118,12 @@
 			isa = PBXGroup;
 			children = (
 				C946407B2A785A90003215B3 /* Constants.swift */,
-				C94222892A544CBD0005A92B /* Main.storyboard */,
 				C98A17B52A851EBF008FBD2A /* Models */,
-				C98A17C22A859BF8008FBD2A /* SplashViewController */,
-				C98A17B82A851F8A008FBD2A /* OAuth2 */,
-				C9CF59252A9399D40050B833 /* ProfileService */,
-				C9F38BFE2A7C514100C83E4A /* Auth */,
-				C9F1C1ED2A8D144600B77061 /* AlertPresenter */,
+				C9D46BD72A9659ED00E6A93E /* ViewControllers */,
 				C98A17BD2A8594CA008FBD2A /* Services */,
-				C946407A2A785A4C003215B3 /* SingleImageViewController */,
-				C94640792A785A35003215B3 /* ProfileViewController */,
-				C9BD1E632A589CE70052C9BD /* ImagesList */,
 				C920FC1A2A596C280025F89B /* Resources */,
 				C94222992A54B6EA0005A92B /* Helpers */,
+				C94222892A544CBD0005A92B /* Main.storyboard */,
 				C94222832A544CBD0005A92B /* AppDelegate.swift */,
 				C94222852A544CBD0005A92B /* SceneDelegate.swift */,
 				C94222912A544CC30005A92B /* Info.plist */,
@@ -146,22 +139,6 @@
 				C9CF592E2A93F9690050B833 /* URLSession.swift */,
 			);
 			path = Helpers;
-			sourceTree = "<group>";
-		};
-		C94640792A785A35003215B3 /* ProfileViewController */ = {
-			isa = PBXGroup;
-			children = (
-				C9FFC1D02A6BDC4500C859BE /* ProfileViewController.swift */,
-			);
-			path = ProfileViewController;
-			sourceTree = "<group>";
-		};
-		C946407A2A785A4C003215B3 /* SingleImageViewController */ = {
-			isa = PBXGroup;
-			children = (
-				C9FFC1D22A6EDC1100C859BE /* SingleImageViewController.swift */,
-			);
-			path = SingleImageViewController;
 			sourceTree = "<group>";
 		};
 		C98A17B52A851EBF008FBD2A /* Models */ = {
@@ -188,27 +165,22 @@
 		C98A17BD2A8594CA008FBD2A /* Services */ = {
 			isa = PBXGroup;
 			children = (
-				C98A17BE2A859505008FBD2A /* WebViewViewControllerDelegate.swift */,
+				C9F1C1ED2A8D144600B77061 /* AlertPresenter */,
+				C9BD1E632A589CE70052C9BD /* ImagesList */,
+				C98A17B82A851F8A008FBD2A /* OAuth2 */,
+				C9CF59252A9399D40050B833 /* ProfileService */,
 				C98A17C02A85957B008FBD2A /* AuthViewControllerDelegate.swift */,
 				C9F1C1EB2A8D138300B77061 /* AlertPresenterProtocol.swift */,
 				C9F1C1F02A8E1C2900B77061 /* RootNavigationController.swift */,
 				C9CF59232A9024880050B833 /* UIBlockingProgressHUD.swift */,
+				C98A17BE2A859505008FBD2A /* WebViewViewControllerDelegate.swift */,
 			);
 			path = Services;
-			sourceTree = "<group>";
-		};
-		C98A17C22A859BF8008FBD2A /* SplashViewController */ = {
-			isa = PBXGroup;
-			children = (
-				C98A17C32A859C28008FBD2A /* SplashViewController.swift */,
-			);
-			path = SplashViewController;
 			sourceTree = "<group>";
 		};
 		C9BD1E632A589CE70052C9BD /* ImagesList */ = {
 			isa = PBXGroup;
 			children = (
-				C94222872A544CBD0005A92B /* ImageListViewController.swift */,
 				C9BD1E612A589CCA0052C9BD /* ImagesListCell.swift */,
 			);
 			path = ImagesList;
@@ -223,21 +195,25 @@
 			path = ProfileService;
 			sourceTree = "<group>";
 		};
+		C9D46BD72A9659ED00E6A93E /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				C9F38BFF2A7C516400C83E4A /* AuthViewController.swift */,
+				C94222872A544CBD0005A92B /* ImageListViewController.swift */,
+				C9FFC1D02A6BDC4500C859BE /* ProfileViewController.swift */,
+				C9FFC1D22A6EDC1100C859BE /* SingleImageViewController.swift */,
+				C98A17C32A859C28008FBD2A /* SplashViewController.swift */,
+				C9F38C022A828B0000C83E4A /* WebViewViewController.swift */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
 		C9F1C1ED2A8D144600B77061 /* AlertPresenter */ = {
 			isa = PBXGroup;
 			children = (
 				C9F1C1EE2A8D149D00B77061 /* AlertPresenter.swift */,
 			);
 			path = AlertPresenter;
-			sourceTree = "<group>";
-		};
-		C9F38BFE2A7C514100C83E4A /* Auth */ = {
-			isa = PBXGroup;
-			children = (
-				C9F38BFF2A7C516400C83E4A /* AuthViewController.swift */,
-				C9F38C022A828B0000C83E4A /* WebViewViewController.swift */,
-			);
-			path = Auth;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
