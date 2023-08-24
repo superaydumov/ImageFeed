@@ -117,13 +117,13 @@
 		C94222822A544CBD0005A92B /* ImageFeed */ = {
 			isa = PBXGroup;
 			children = (
-				C946407B2A785A90003215B3 /* Constants.swift */,
 				C98A17B52A851EBF008FBD2A /* Models */,
 				C9D46BD72A9659ED00E6A93E /* ViewControllers */,
 				C98A17BD2A8594CA008FBD2A /* Services */,
 				C920FC1A2A596C280025F89B /* Resources */,
 				C94222992A54B6EA0005A92B /* Helpers */,
 				C94222892A544CBD0005A92B /* Main.storyboard */,
+				C946407B2A785A90003215B3 /* Constants.swift */,
 				C94222832A544CBD0005A92B /* AppDelegate.swift */,
 				C94222852A544CBD0005A92B /* SceneDelegate.swift */,
 				C94222912A544CC30005A92B /* Info.plist */,
