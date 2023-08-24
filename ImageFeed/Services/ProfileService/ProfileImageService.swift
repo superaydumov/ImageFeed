@@ -35,7 +35,7 @@ final class ProfileImageService {
         
         guard let request else { return }
         
-        let task = imageObject(for: request) { [weak self] result in
+        let task = urlSession.objectTask(for: request) { [weak self] (result: Result<UserResult, Error>) in
             guard let self else { return }
             DispatchQueue.main.async {
                 switch result {
@@ -65,18 +65,4 @@ extension ProfileImageService {
     private func profileImageURLRequest(username: String) -> URLRequest {
         URLRequest.makeHTTPRequest(path: "/users/\(username)", httpMethod: "GET")
     }
-    
-    private func imageObject(for request: URLRequest,
-                             completion: @escaping (Result<UserResult, Error>) -> Void)
-         -> URLSessionTask {
-             let decoder = JSONDecoder()
-             decoder.keyDecodingStrategy = .convertFromSnakeCase
-             
-             return urlSession.data(for: request) { (result: Result<Data, Error>) in
-                 let response = result.flatMap { data -> Result<UserResult, Error> in
-                     Result { try decoder.decode(UserResult.self, from: data) }
-                 }
-                 completion(response)
-             }
-         }
 }

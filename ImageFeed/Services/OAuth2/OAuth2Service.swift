@@ -38,7 +38,7 @@ final class OAuth2Service {
         lastCode = code
         
         let request = authTokenRequest(code: code)
-        let task = object(for:request) { [weak self] result in
+        let task = urlSession.objectTask(for:request) { [weak self] (result: Result<OAuthTokenResponseBody, Error>) in
             guard let self = self else { return }
             DispatchQueue.main.async {
                 switch result {
@@ -58,20 +58,7 @@ final class OAuth2Service {
 }
 
 extension OAuth2Service {
-    private func object(for request: URLRequest,
-                        completion: @escaping (Result<OAuthTokenResponseBody, Error>) -> Void)
-    -> URLSessionTask {
-        let decoder = JSONDecoder()
-        decoder.keyDecodingStrategy = .convertFromSnakeCase
-        
-        return urlSession.data(for: request) { (result: Result<Data, Error>) in
-            let response = result.flatMap { data -> Result<OAuthTokenResponseBody, Error> in
-                Result { try decoder.decode(OAuthTokenResponseBody.self, from: data) }
-            }
-            completion(response)
-        }
-    }
-        
+ 
     func photosRequest(page: Int, perPage: Int) -> URLRequest {
             URLRequest.makeHTTPRequest(path: "/photos?"
                                        + "page=\(page)"

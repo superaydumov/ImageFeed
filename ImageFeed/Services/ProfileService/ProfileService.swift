@@ -32,7 +32,7 @@ final class ProfileService {
         
         guard let request else { return }
         
-        let task = profileObject(for: request) { [weak self] result in
+        let task = urlSession.objectTask(for: request) { [weak self] (result: Result<ProfileResult, Error>) in
             guard let self else { return }
             DispatchQueue.main.async {
                 switch result {
@@ -58,19 +58,5 @@ final class ProfileService {
 extension ProfileService {
     private var selfProfileRequest: URLRequest {
             URLRequest.makeHTTPRequest(path: "/me", httpMethod: "GET")
-    }
-    
-    private func profileObject(for request: URLRequest,
-                        completion: @escaping (Result<ProfileResult, Error>) -> Void)
-    -> URLSessionTask {
-        let decoder = JSONDecoder()
-        decoder.keyDecodingStrategy = .convertFromSnakeCase
-        
-        return urlSession.data(for: request) { (result: Result<Data, Error>) in
-            let response = result.flatMap { data -> Result<ProfileResult, Error> in
-                Result { try decoder.decode(ProfileResult.self, from: data) }
-            }
-            completion(response)
-        }
     }
 }
