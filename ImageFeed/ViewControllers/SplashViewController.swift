@@ -31,14 +31,6 @@ final class SplashViewController: UIViewController {
         }
         
         alertPresenter = AlertPresenter(delegate: self)
-        
-//        let alertModel = AlertModel(title: "Что-то пошло не так(", message: "Не удалось войти в систему!", buttonText: "Ok", completion: { [weak self] in
-//            guard let self else { return }
-//            
-//            print ("Ok button is clicked.")
-//            oauth2TokenStorage.token = nil
-//        })
-//        alertPresenter?.showAlert(model: alertModel)
     }
     
     override func viewWillAppear(_ animated: Bool) {

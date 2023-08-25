@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Kingfisher
 
 final class ProfileViewController: UIViewController {
     
@@ -16,6 +17,7 @@ final class ProfileViewController: UIViewController {
     private var nameLabel: UILabel!
     private var loginLabel: UILabel!
     private var infoLabel: UILabel!
+    private var profileImageView: UIImageView!
     
     private let profileService = ProfileService.shared
     
@@ -65,15 +67,23 @@ final class ProfileViewController: UIViewController {
     private func updateAvatar() {
         guard
             let profileImageURL = profileImageService.avatarURL,
-            let url = URL(string: profileImageURL)
+            let imageURL = URL(string: profileImageURL)
         else { return }
-        // TODO: update avatar using KingFisher
+        let cache = ImageCache.default
+        cache.clearMemoryCache()
+        cache.clearDiskCache()
+
+        let processor = RoundCornerImageProcessor(cornerRadius: 61)
+        profileImageView.kf.indicatorType = .activity
+        profileImageView.kf.setImage(with: imageURL,
+                                     placeholder: UIImage(named: "userpick_stub"),
+                                     options: [.processor(processor)])
     }
     
     // MARK: - UISetup methods
     
     private func imageUISetup() {
-        let profileImage = UIImage(named: "userpick_stub")
+        let profileImage = UIImage(named: "userpick_photo")
         let imageView = UIImageView(image: profileImage)
         imageView.tintColor = .gray
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -84,6 +94,8 @@ final class ProfileViewController: UIViewController {
             imageView.widthAnchor.constraint(equalToConstant: 70),
             imageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 32),
             imageView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16)])
+        
+        self.profileImageView = imageView
     }
     
     private func logoutButtonUISetup() {
