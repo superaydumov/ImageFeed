@@ -95,13 +95,8 @@ extension SplashViewController: AuthViewControllerDelegate {
                 UIBlockingProgressHUD.dismiss()
             case .failure:
                 UIBlockingProgressHUD.dismiss()
-                let alertModel = AlertModel(title: "Что-то пошло не так(", message: "Не удалось войти в систему!", buttonText: "Ok", completion: { [weak self] in
-                    guard let self else { return }
-                    
-                    print ("Ok button is clicked.")
-                    oauth2TokenStorage.token = nil
-                })
-                alertPresenter?.showAlert(model: alertModel)
+                let alertMessage = "Не удалось войти в систему!\nОшибка при получении токена."
+                splashAlertShow(alertMessage: alertMessage)
                 print ("fetchOAuthToken failure case!")
                 break
             }
@@ -118,9 +113,21 @@ extension SplashViewController: AuthViewControllerDelegate {
                 self.switchToTabBarController()
             case .failure:
                 UIBlockingProgressHUD.dismiss()
+                let alertMessage = "Не удалось войти в систему!\nОшибка загрузки профиля."
+                splashAlertShow(alertMessage: alertMessage)
                 print("Error with profile.")
                 break
             }
         }
+    }
+    
+    private func splashAlertShow(alertMessage: String) {
+        let alertModel = AlertModel(title: "Что-то пошло не так(", message: alertMessage, buttonText: "Ok", completion: { [weak self] in
+            guard let self else { return }
+            
+            print ("Ok button is clicked.")
+            oauth2TokenStorage.token = nil
+        })
+        alertPresenter?.showAlert(model: alertModel)
     }
 }
