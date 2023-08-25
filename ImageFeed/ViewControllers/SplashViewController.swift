@@ -29,6 +29,16 @@ final class SplashViewController: UIViewController {
         } else {
             performSegue(withIdentifier: showAuthentificationScreenSegueIdentifier, sender: nil)
         }
+        
+        alertPresenter = AlertPresenter(delegate: self)
+        
+//        let alertModel = AlertModel(title: "Что-то пошло не так(", message: "Не удалось войти в систему!", buttonText: "Ok", completion: { [weak self] in
+//            guard let self else { return }
+//            
+//            print ("Ok button is clicked.")
+//            oauth2TokenStorage.token = nil
+//        })
+//        alertPresenter?.showAlert(model: alertModel)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -85,11 +95,14 @@ extension SplashViewController: AuthViewControllerDelegate {
                 UIBlockingProgressHUD.dismiss()
             case .failure:
                 UIBlockingProgressHUD.dismiss()
-                let alertModel = AlertModel(title: "Error", message: "There's a problem with token!", buttonText: "Ok", completion: {
+                let alertModel = AlertModel(title: "Что-то пошло не так(", message: "Не удалось войти в систему!", buttonText: "Ok", completion: { [weak self] in
+                    guard let self else { return }
+                    
                     print ("Ok button is clicked.")
-                    //code to write to handle pushinhg "Ok" alert button
+                    oauth2TokenStorage.token = nil
                 })
                 alertPresenter?.showAlert(model: alertModel)
+                print ("fetchOAuthToken failure case!")
                 break
             }
         }
