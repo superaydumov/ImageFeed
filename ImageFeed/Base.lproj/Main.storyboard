@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="QYj-Tf-a6a">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
@@ -111,7 +111,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="51" y="-2"/>
+            <point key="canvasLocation" x="-45" y="502"/>
         </scene>
         <!--Auth View Controller-->
         <scene sceneID="7hg-Jy-8X5">
@@ -122,10 +122,10 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="unsplash_logo" translatesAutoresizingMaskIntoConstraints="NO" id="fv1-6z-icI">
-                                <rect key="frame" x="177" y="440" width="60" height="60"/>
+                                <rect key="frame" x="177" y="447" width="60" height="60"/>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wFA-l1-5uL">
-                                <rect key="frame" x="16" y="758" width="382" height="48"/>
+                                <rect key="frame" x="16" y="724" width="382" height="48"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="48" id="aOe-dG-Q4K"/>
                                 </constraints>
@@ -154,7 +154,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkD-xE-wm9" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="51" y="1396"/>
+            <point key="canvasLocation" x="-46" y="1396"/>
         </scene>
         <!--Web View View Controller-->
         <scene sceneID="6KQ-ZH-fdX">
@@ -213,37 +213,6 @@
             </objects>
             <point key="canvasLocation" x="983" y="1396"/>
         </scene>
-        <!--Splash View Controller-->
-        <scene sceneID="n3T-bA-6yV">
-            <objects>
-                <viewController storyboardIdentifier="SplashViewController" id="QYj-Tf-a6a" customClass="SplashViewController" customModule="ImageFeed" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="A13-R2-DP9">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Vector" translatesAutoresizingMaskIntoConstraints="NO" id="85x-u2-OrV">
-                                <rect key="frame" x="170" y="416.5" width="74" height="77"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="77" id="GDW-4C-LOj"/>
-                                    <constraint firstAttribute="width" constant="74" id="Q6C-zK-SbQ"/>
-                                </constraints>
-                            </imageView>
-                        </subviews>
-                        <viewLayoutGuide key="safeArea" id="udJ-Rs-1Sj"/>
-                        <color key="backgroundColor" name="YP Black"/>
-                        <constraints>
-                            <constraint firstItem="85x-u2-OrV" firstAttribute="centerY" secondItem="udJ-Rs-1Sj" secondAttribute="centerY" id="IB3-6p-AQb"/>
-                            <constraint firstItem="85x-u2-OrV" firstAttribute="centerX" secondItem="udJ-Rs-1Sj" secondAttribute="centerX" id="OXf-Hp-DwO"/>
-                        </constraints>
-                    </view>
-                    <connections>
-                        <segue destination="FuI-15-7SX" kind="presentation" identifier="ShowAuthenticationScreen" modalPresentationStyle="fullScreen" id="1AV-tv-883"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="974-Lc-Khk" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-2005" y="815"/>
-        </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="M0Z-de-7Qp">
             <objects>
@@ -259,7 +228,7 @@
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Rg3-Ce-6b8" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-981" y="337"/>
+            <point key="canvasLocation" x="-1123" y="502"/>
         </scene>
         <!--Single Image View Controller-->
         <scene sceneID="7Bo-jQ-hc6">
@@ -331,15 +300,15 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="oYF-Al-aF1" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="982.60869565217399" y="-2.0089285714285712"/>
+            <point key="canvasLocation" x="983" y="502"/>
         </scene>
         <!--Root Navigation Controller-->
         <scene sceneID="YiR-GO-4ee">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="FuI-15-7SX" customClass="RootNavigationController" customModule="ImageFeed" customModuleProvider="target" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="RootNavigationController" automaticallyAdjustsScrollViewInsets="NO" id="FuI-15-7SX" customClass="RootNavigationController" customModule="ImageFeed" customModuleProvider="target" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="hRs-O2-o4r">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
+                        <rect key="frame" x="0.0" y="48" width="414" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
@@ -349,11 +318,10 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="CgZ-2H-Mdj" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-981" y="1396"/>
+            <point key="canvasLocation" x="-1123" y="1396"/>
         </scene>
     </scenes>
     <resources>
-        <image name="Vector" width="74" height="77"/>
         <image name="backward_button" width="24" height="24"/>
         <image name="like_button_ON" width="44" height="44"/>
         <image name="nav_back_button" width="24" height="24"/>
