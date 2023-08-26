@@ -12,14 +12,14 @@ final class ProfileViewController: UIViewController {
     
     // MARK: - Private properties
     
-    private var label: UILabel?
-    
     private var nameLabel: UILabel!
     private var loginLabel: UILabel!
     private var infoLabel: UILabel!
     private var profileImageView: UIImageView!
+    private var logoutButton: UIButton!
     
     private let profileService = ProfileService.shared
+    private let oauth2TokenStorage = OAuth2TokenStorage.shared
     
     private let profileImageService = ProfileImageService.shared
     private var profileImageServiceObserver: NSObjectProtocol?
@@ -109,6 +109,8 @@ final class ProfileViewController: UIViewController {
         
         logoutButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16).isActive = true
         logoutButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 45).isActive = true
+        
+        self.logoutButton = logoutButton
     }
     
     private func nameLabelUISetup() {
@@ -156,7 +158,13 @@ final class ProfileViewController: UIViewController {
     // MARK: - @objc methods
     @objc
     private func didTapLogoutButton() {
-        label?.removeFromSuperview()
-        label = nil
+        profileImageView.image = UIImage(named: "userpick_stub")
+        nameLabel.text = "User's name"
+        loginLabel.text = "User's login"
+        infoLabel.text = "User's information"
+        
+        oauth2TokenStorage.token = nil
+        
+        logoutButton.isEnabled = false
     }
 }
