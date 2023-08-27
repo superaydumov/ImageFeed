@@ -108,14 +108,12 @@ extension SplashViewController: AuthViewControllerDelegate {
             switch result {
             case .success(let token):
                 self.fetchProfile(token: token)
-                UIBlockingProgressHUD.dismiss()
             case .failure:
-                UIBlockingProgressHUD.dismiss()
                 let alertMessage = "Не удалось войти в систему!\nОшибка при получении токена."
                 splashAlertShow(alertMessage: alertMessage)
                 print ("fetchOAuthToken failure case!")
-                break
             }
+            UIBlockingProgressHUD.dismiss()
         }
     }
     

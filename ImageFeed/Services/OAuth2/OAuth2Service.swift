@@ -40,7 +40,6 @@ final class OAuth2Service {
         let request = authTokenRequest(code: code)
         let task = urlSession.objectTask(for:request) { [weak self] (result: Result<OAuthTokenResponseBody, Error>) in
             guard let self = self else { return }
-            DispatchQueue.main.async {
                 switch result {
                 case .success (let body):
                     self.task = nil
@@ -50,7 +49,6 @@ final class OAuth2Service {
                     self.lastCode = nil
                     completion(.failure(error))
                 }
-            }
         }
         self.task = task
         task.resume()

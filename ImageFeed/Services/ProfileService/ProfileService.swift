@@ -34,7 +34,6 @@ final class ProfileService {
         
         let task = urlSession.objectTask(for: request) { [weak self] (result: Result<ProfileResult, Error>) in
             guard let self else { return }
-            DispatchQueue.main.async {
                 switch result {
                 case .success (let body):
                     let profile = Profile(username: body.username,
@@ -48,7 +47,6 @@ final class ProfileService {
                     completion(.failure(error))
                     self.profile = nil
                 }
-            }
         }
         self.task = task
         task.resume()
