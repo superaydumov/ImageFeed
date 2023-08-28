@@ -20,6 +20,11 @@ final class ProfileService {
     
     private var task: URLSessionTask?
     
+    private struct Keys {
+        static let noBio = "User didn't fill biography box."
+        static let noLastname = ""
+    }
+    
     // MARK: - Public methods
     
     func fetchProfile(_ token: String, completion: @escaping (Result<Profile, Error>) -> Void) {
@@ -37,9 +42,9 @@ final class ProfileService {
                 switch result {
                 case .success (let body):
                     let profile = Profile(username: body.username,
-                                          name: "\(body.firstName) \(body.lastName)",
+                                          name: "\(body.firstName) \(body.lastName ?? Keys.noLastname)",
                                           loginName: "@\(body.username)",
-                                          bio: body.bio)
+                                          bio: body.bio ?? Keys.noBio)
                     self.profile = profile
                     
                     completion(.success(profile))
