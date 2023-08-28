@@ -109,7 +109,7 @@ extension SplashViewController: AuthViewControllerDelegate {
                 self.fetchProfile(token: token)
             case .failure:
                 let alertMessage = "Не удалось войти в систему!\nОшибка при получении токена."
-                splashAlertShow(alertMessage: alertMessage)
+                self.splashAlertShow(alertMessage: alertMessage)
                 print ("fetchOAuthToken failure case!")
             }
             UIBlockingProgressHUD.dismiss()
@@ -122,12 +122,12 @@ extension SplashViewController: AuthViewControllerDelegate {
             switch result {
             case .success(let data):
                 UIBlockingProgressHUD.dismiss()
-                profileImageService.fetchProfileImageURL(token: token, username: data.username) { _ in }
+                self.profileImageService.fetchProfileImageURL(token: token, username: data.username) { _ in }
                 self.switchToTabBarController()
             case .failure:
                 UIBlockingProgressHUD.dismiss()
                 let alertMessage = "Не удалось войти в систему!\nОшибка загрузки профиля."
-                splashAlertShow(alertMessage: alertMessage)
+                self.splashAlertShow(alertMessage: alertMessage)
                 print("Error with profile.")
                 break
             }
@@ -139,7 +139,7 @@ extension SplashViewController: AuthViewControllerDelegate {
             guard let self else { return }
             
             print ("Ok button is clicked.")
-            oauth2TokenStorage.token = nil
+            self.oauth2TokenStorage.token = nil
         })
         alertPresenter?.showAlert(model: alertModel)
     }
