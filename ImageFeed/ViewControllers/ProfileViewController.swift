@@ -6,12 +6,23 @@
 //
 
 import UIKit
+import Kingfisher
 
 final class ProfileViewController: UIViewController {
     
     // MARK: - Private properties
     
-    private var label: UILabel?
+    private var nameLabel: UILabel!
+    private var loginLabel: UILabel!
+    private var infoLabel: UILabel!
+    private var profileImageView: UIImageView!
+    private var logoutButton: UIButton!
+    
+    private let profileService = ProfileService.shared
+    private let oauth2TokenStorage = OAuth2TokenStorage.shared
+    
+    private let profileImageService = ProfileImageService.shared
+    private var profileImageServiceObserver: NSObjectProtocol?
     
     // MARK: - Lifecycle
     
@@ -23,6 +34,8 @@ final class ProfileViewController: UIViewController {
         nameLabelUISetup()
         loginLabelUISetup()
         infoLabelUISetup()
+        
+        updateProfileDetails(profile: profileService.profile)
     }
     
     // MARK: - UIStatusBarStyle
@@ -31,10 +44,46 @@ final class ProfileViewController: UIViewController {
         .lightContent
     }
     
+    // MARK: - Private methods
+    
+    private func updateProfileDetails(profile: Profile?) {
+        guard let profile else { return }
+        nameLabel.text = profile.name
+        loginLabel.text = profile.loginName
+        infoLabel.text = profile.bio
+        
+        profileImageServiceObserver = NotificationCenter.default.addObserver(
+            forName: ProfileImageService.didChangeNotification,
+            object: nil,
+            queue: .main,
+            using: { [weak self] _ in
+                guard let self else { return }
+                self.updateAvatar()
+            })
+        
+        updateAvatar()
+    }
+    
+    private func updateAvatar() {
+        guard
+            let profileImageURL = profileImageService.avatarURL,
+            let imageURL = URL(string: profileImageURL)
+        else { return }
+        let cache = ImageCache.default
+        cache.clearMemoryCache()
+        cache.clearDiskCache()
+
+        let processor = RoundCornerImageProcessor(cornerRadius: 61)
+        profileImageView.kf.indicatorType = .activity
+        profileImageView.kf.setImage(with: imageURL,
+                                     placeholder: UIImage(named: "userpick_stub"),
+                                     options: [.processor(processor)])
+    }
+    
     // MARK: - UISetup methods
     
     private func imageUISetup() {
-        let profileImage = UIImage(named: "userpick_stub")
+        let profileImage = UIImage(named: "userpick_photo")
         let imageView = UIImageView(image: profileImage)
         imageView.tintColor = .gray
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -45,6 +94,8 @@ final class ProfileViewController: UIViewController {
             imageView.widthAnchor.constraint(equalToConstant: 70),
             imageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 32),
             imageView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16)])
+        
+        self.profileImageView = imageView
     }
     
     private func logoutButtonUISetup() {
@@ -58,6 +109,8 @@ final class ProfileViewController: UIViewController {
         
         logoutButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16).isActive = true
         logoutButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 45).isActive = true
+        
+        self.logoutButton = logoutButton
     }
     
     private func nameLabelUISetup() {
@@ -70,6 +123,8 @@ final class ProfileViewController: UIViewController {
         
         nameLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16).isActive = true
         nameLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 110).isActive = true
+        
+        self.nameLabel = nameLabel
     }
     
     private func loginLabelUISetup() {
@@ -82,6 +137,8 @@ final class ProfileViewController: UIViewController {
         
         loginLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16).isActive = true
         loginLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 145).isActive = true
+       
+        self.loginLabel = loginLabel
     }
     
     private func infoLabelUISetup() {
@@ -94,12 +151,20 @@ final class ProfileViewController: UIViewController {
         
         infoLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16).isActive = true
         infoLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 169).isActive = true
+        
+        self.infoLabel = infoLabel
     }
     
     // MARK: - @objc methods
     @objc
     private func didTapLogoutButton() {
-        label?.removeFromSuperview()
-        label = nil
+        profileImageView.image = UIImage(named: "userpick_stub")
+        nameLabel.text = "User's name"
+        loginLabel.text = "User's login"
+        infoLabel.text = "User's information"
+        
+        oauth2TokenStorage.token = nil
+        
+        logoutButton.isEnabled = false
     }
 }
