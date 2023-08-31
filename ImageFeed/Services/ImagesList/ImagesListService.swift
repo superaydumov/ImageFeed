@@ -22,7 +22,6 @@ final class ImagesListService {
     private let token = OAuth2TokenStorage.shared.token
     static let didChangeNotification = Notification.Name(rawValue: "ImagesListServiceDidChange")
     
-    
     // MARK: - Private methods
     
     func fetchPhotosNextPage() {
@@ -33,7 +32,7 @@ final class ImagesListService {
         guard let token else { return }
             
         var request: URLRequest? = photosRequest(page: nextPage, perPage: 10)
-        request?.addValue("Bearer \(String(describing: token))", forHTTPHeaderField: "Authorization")
+        request?.addValue("Bearer \(token))", forHTTPHeaderField: "Authorization")
             
         guard let request else { return }
             
@@ -43,7 +42,7 @@ final class ImagesListService {
                 case .success (let body):
                     let photo = Photo(id: body.id,
                                       size: CGSize(width: body.width, height: body.height),
-                                      createdAt: dateFormatter.date(from: body.createdAt),
+                                      createdAt: body.createdAt?.dateTimeString,
                                       welcomeDescription: body.description,
                                       thumbImageURL: body.urlResult.thumb,
                                       largeImageURL: body.urlResult.full,

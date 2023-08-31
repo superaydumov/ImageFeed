@@ -13,21 +13,21 @@ struct PhotoResult: Codable {
     let width: Int
     let height: Int
     let likedByUser: Bool
-    let description: String
-    let urlResult: URLresult
+    let description: String?
+    let urlResult: URLResult
     
     enum CodingKeys: String, CodingKey {
         case id
-        case ceatedAt = "created_at"
+        case createdAt = "created_at"
         case width
         case height
         case likedByUser = "liked_by_user"
         case description
-        case urls
+        case urlResult
     }
 }
 
-struct URLresult: Codable {
+struct URLResult: Codable {
     let full: String
     let thumb: String
 }
