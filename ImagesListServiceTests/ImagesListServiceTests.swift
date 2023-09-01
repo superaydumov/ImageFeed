@@ -18,7 +18,12 @@ final class ImagesListServiceTests: XCTestCase {
                                                object: nil,
                                                queue: .main,
                                                using: { _ in expectation.fulfill() })
-
+        service.fetchPhotosNextPage()
+        service.fetchPhotosNextPage()
+        service.fetchPhotosNextPage()
+        service.fetchPhotosNextPage()
+        service.fetchPhotosNextPage()
+        service.fetchPhotosNextPage()
         service.fetchPhotosNextPage()
         wait(for: [expectation], timeout: 10)
 
