@@ -17,19 +17,48 @@ final class ImagesListCell: UITableViewCell {
     @IBOutlet private var gradientView: UIView!
     
     // MARK: - Constants
+    struct Keys {
+        static let reuseIdentifier = "ImagesListCell"
+        static let placeholderImage = "image_placeholder"
+        static let likedButtonOn = "like_button_ON"
+        static let likedButtonOff = "like_button_OFF"
+    }
     
-    static let reuseIdentifier = "ImagesListCell"
+    private let imagesListService = ImagesListService.shared
+    
+    // MARK: - Lifecycle
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        
+        cellImage.kf.cancelDownloadTask()
+    }
 }
 
 extension ImagesListCell {
-    func configureCell(image: UIImage?, date: String, isLiked: Bool) {
+    func configureCell(using photoURLString: String, with indexpath: IndexPath) -> Bool {
         gradientViewSet(self)
         
-        cellImage.image = image
-        dateLabel.text = date
-
-        let likeImage = isLiked ? UIImage(named: "like_button_ON") : UIImage(named: "like_button_OFF")
-        likeButton.setImage(likeImage, for: .normal)
+        var status = false
+        
+        guard let photoURL = URL(string: photoURLString) else { return status }
+        
+        let placeholderImage = UIImage(named: Keys.placeholderImage)
+        
+        cellImage.kf.indicatorType = .activity
+        cellImage.kf.setImage(with: photoURL,
+                              placeholder: placeholderImage) { result in
+            switch result {
+            case .success(_):
+                status = true
+            case .failure(let error):
+                print ("There's an error with placeholder picture: \(error)")
+            }
+        }
+        
+        dateLabel.text = imagesListService.photos[indexpath.row].createdAt?.dateTimeString ?? Date().dateTimeString
+        // TODO: add likes
+        return status
     }
 }
 
@@ -46,5 +75,10 @@ extension ImagesListCell {
         gradientView.backgroundColor = UIColor.clear
         gradientView.layer.insertSublayer(gradientViewLayer, at: 0)
         gradientView.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
+    }
+    
+    func isLikedDidSet(_ isLiked: Bool) {
+        let likeImage = isLiked ? UIImage(named: Keys.likedButtonOn) : UIImage(named: Keys.likedButtonOff)
+        likeButton.setImage(likeImage, for: .normal)
     }
 }
