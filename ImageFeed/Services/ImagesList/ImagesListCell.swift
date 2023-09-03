@@ -17,6 +17,7 @@ final class ImagesListCell: UITableViewCell {
     @IBOutlet private var gradientView: UIView!
     
     // MARK: - Constants
+    
     struct Keys {
         static let reuseIdentifier = "ImagesListCell"
         static let placeholderImage = "image_placeholder"
@@ -32,6 +33,12 @@ final class ImagesListCell: UITableViewCell {
         super.prepareForReuse()
         
         cellImage.kf.cancelDownloadTask()
+    }
+    
+    // MARK: - IBActions
+    
+    @IBAction func likeButtonDidTap(_ sender: Any) {
+        // TODO: code to add add likes on photos
     }
 }
 

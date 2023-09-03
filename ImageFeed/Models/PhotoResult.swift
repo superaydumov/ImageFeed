@@ -21,3 +21,7 @@ struct URLResult: Codable {
     let full: String?
     let thumb: String?
 }
+
+struct LikePhotoResult: Codable {
+    let photo: PhotoResult?
+}

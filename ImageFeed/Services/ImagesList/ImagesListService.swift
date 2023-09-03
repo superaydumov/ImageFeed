@@ -27,7 +27,7 @@ final class ImagesListService {
         static let noURLRequestFull = "There's no full size for photo."
     }
     
-    // MARK: - Private methods
+    // MARK: - Public methods
     
     func fetchPhotosNextPage() {
         let nextPage = nextPageDownload()
@@ -71,6 +71,55 @@ final class ImagesListService {
         self.task = task
         task.resume()
     }
+    
+    func changelike(photoId: String, isLike: Bool, _ completion: @escaping (Result<Bool, Error>) -> Void) {
+        assert(Thread.isMainThread)
+        task?.cancel()
+        
+        guard let token = token else { return }
+        
+        var request: URLRequest?
+        if isLike {
+            request = likeRequest(photoId: photoId)
+        } else {
+            request = unlikeRequest(photoId: photoId)
+        }
+        
+        request?.addValue("Bearer \(token))", forHTTPHeaderField: "Authorization")
+
+        guard let request else { return }
+
+        let task = urlSession.objectTask(for: request) { [weak self] (result: Result<LikePhotoResult, Error>) in
+            DispatchQueue.main.async {
+                guard let self else { return }
+                switch result {
+                case .success (let body):
+                    let likedByUser = body.photo?.likedByUser ?? false
+                    if let index = self.photos.firstIndex(where: { $0.id == body.photo?.id}) {
+                        let photo = self.photos[index]
+                        let newphoto = Photo(id: photo.id,
+                                             size: photo.size,
+                                             createdAt: photo.createdAt,
+                                             welcomeDescription: photo.welcomeDescription,
+                                             thumbImageURL: photo.thumbImageURL,
+                                             largeImageURL: photo.largeImageURL,
+                                             isLiked: likedByUser)
+                        
+                        self.photos[index] = newphoto
+                        //self.photos = self.photos.withReplaced(itemAt: index, newValue: newphoto)
+                    }
+                    completion(.success(likedByUser))
+                    self.task = nil
+                    
+                case .failure(let error):
+                    completion(.failure(error))
+                    print ("There's a problem with like request: \(error).")
+                }
+            }
+        }
+        self.task = task
+        task.resume()
+    }
 }
 
 extension ImagesListService {
@@ -79,6 +128,14 @@ extension ImagesListService {
                                        + "page=\(page)"
                                        + "&&per_page=\(perPage)",
                                        httpMethod: "GET")
+    }
+    
+    private func likeRequest(photoId: String) -> URLRequest {
+        URLRequest.makeHTTPRequest(path: "/photos/\(photoId)/like", httpMethod: "POST")
+    }
+    
+    private func unlikeRequest(photoId: String) -> URLRequest {
+        URLRequest.makeHTTPRequest(path: "/photos/\(photoId)/like", httpMethod: "DELETE")
     }
     
     private func nextPageDownload () -> Int {
