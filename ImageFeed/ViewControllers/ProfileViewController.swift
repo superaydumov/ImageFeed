@@ -7,6 +7,7 @@
 
 import UIKit
 import Kingfisher
+import WebKit
 
 final class ProfileViewController: UIViewController {
     
@@ -78,6 +79,21 @@ final class ProfileViewController: UIViewController {
         profileImageView.kf.setImage(with: imageURL,
                                      placeholder: UIImage(named: "userpick_stub"),
                                      options: [.processor(processor)])
+    }
+    
+    private func switchToSplashViewController() {
+        guard let window = UIApplication.shared.windows.first else { fatalError("Invalid configuration of switchToSplachViewController")}
+        
+        window.rootViewController = SplashViewController()
+    }
+    
+    private func cleanWebCookies() {
+        HTTPCookieStorage.shared.removeCookies(since: Date.distantPast)
+        WKWebsiteDataStore.default().fetchDataRecords(ofTypes: WKWebsiteDataStore.allWebsiteDataTypes(), completionHandler: { records in
+            records.forEach { record in
+                WKWebsiteDataStore.default().removeData(ofTypes: record.dataTypes, for: [record], completionHandler: {} )
+            }
+        })
     }
     
     // MARK: - UISetup methods
@@ -164,6 +180,8 @@ final class ProfileViewController: UIViewController {
         infoLabel.text = "User's information"
         
         oauth2TokenStorage.token = nil
+        switchToSplashViewController()
+        cleanWebCookies()
         
         logoutButton.isEnabled = false
     }
