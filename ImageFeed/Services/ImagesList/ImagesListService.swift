@@ -80,9 +80,9 @@ final class ImagesListService {
         
         var request: URLRequest?
         if isLike {
-            request = likeRequest(photoId: photoId)
-        } else {
             request = unlikeRequest(photoId: photoId)
+        } else {
+            request = likeRequest(photoId: photoId)
         }
         
         request?.addValue("Bearer \(token))", forHTTPHeaderField: "Authorization")
@@ -106,7 +106,6 @@ final class ImagesListService {
                                              isLiked: likedByUser)
                         
                         self.photos[index] = newphoto
-                        //self.photos = self.photos.withReplaced(itemAt: index, newValue: newphoto)
                     }
                     completion(.success(likedByUser))
                     self.task = nil

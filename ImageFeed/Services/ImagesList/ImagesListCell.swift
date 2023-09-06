@@ -26,6 +26,7 @@ final class ImagesListCell: UITableViewCell {
     }
     
     private let imagesListService = ImagesListService.shared
+    weak var delegate: ImagesListCellDelegate?
     
     // MARK: - Lifecycle
     
@@ -38,7 +39,7 @@ final class ImagesListCell: UITableViewCell {
     // MARK: - IBActions
     
     @IBAction func likeButtonDidTap(_ sender: Any) {
-        // TODO: code to add add likes on photos
+        delegate?.imagesListCellDidTapLike(self)
     }
 }
 
@@ -64,7 +65,7 @@ extension ImagesListCell {
         }
         
         dateLabel.text = imagesListService.photos[indexpath.row].createdAt?.dateTimeString ?? Date().dateTimeString
-        // TODO: add likes
+        
         return status
     }
 }

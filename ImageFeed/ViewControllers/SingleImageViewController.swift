@@ -16,25 +16,23 @@ final class SingleImageViewController: UIViewController {
     
     // MARK: - Public properties
     
-    var image: UIImage! {
-        didSet {
-            guard isViewLoaded else { return }
-            singleImageView.image = image
-            rescaleAndCenterImageInScrollView(image: image)
-        }
-    }
+    var largeImageURL: URL?
     
     // MARK: - Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        singleImageView.image = image
         
         scrollView.delegate = self
         scrollView.minimumZoomScale = 0.1
         scrollView.maximumZoomScale = 1.25
         
-        rescaleAndCenterImageInScrollView(image: image)
+        UIBlockingProgressHUD.show()
+        largeImageDownload()
+        
+        if let image = singleImageView.image {
+            rescaleAndCenterImageInScrollView(image: image)
+        }
     }
     
     // MARK: - UIStatusBarStyle
@@ -56,10 +54,25 @@ final class SingleImageViewController: UIViewController {
         let scale = min(maxZoomScale, max(minZoomScale, max(hScale, vScale)))
         scrollView.setZoomScale(scale, animated: false)
         scrollView.layoutIfNeeded()
+
         let newContentSize = scrollView.contentSize
         let x = (newContentSize.width - visibleRectSize.width) / 2
         let y = (newContentSize.height - visibleRectSize.height) / 2
         scrollView.setContentOffset(CGPoint(x: x, y: y), animated: false)
+    }
+    
+    private func largeImageDownload() {
+        singleImageView.kf.setImage(with: largeImageURL) { [weak self] result in
+            UIBlockingProgressHUD.dismiss()
+            guard let self else { return }
+            switch result {
+            case.success(let imageResult):
+                self.rescaleAndCenterImageInScrollView(image: imageResult.image)
+            case.failure:
+                print ("There's an error with full picture downloading.")
+                //TODO: add alert to show error
+            }
+        }
     }
     
     // MARK: - IBActions
@@ -69,7 +82,7 @@ final class SingleImageViewController: UIViewController {
     }
     
     @IBAction private func didTapShareButton(_ sender: Any) {
-        let share = UIActivityViewController(activityItems: [image ?? UIImage.self], applicationActivities: nil)
+        let share = UIActivityViewController(activityItems: [singleImageView.image as Any], applicationActivities: nil)
         present(share, animated: true)
     }
     
@@ -85,6 +98,8 @@ extension SingleImageViewController: UIScrollViewDelegate {
     func scrollViewDidEndZooming(_ scrollView: UIScrollView, with view: UIView?, atScale scale: CGFloat) {
         UIView.animate(withDuration: 0.5) { [weak self] in
             guard let self else { return }
+
+            guard let image = self.singleImageView.image else { return }
             self.rescaleAndCenterImageInScrollView(image: image)
         }
     }
