@@ -119,6 +119,13 @@ final class ImagesListService {
         self.task = task
         task.resume()
     }
+    
+    func clean() {
+        photos = []
+        lastLoadedPage = nil
+        task?.cancel()
+        task = nil
+    }
 }
 
 extension ImagesListService {

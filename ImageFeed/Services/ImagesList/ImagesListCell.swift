@@ -64,7 +64,7 @@ extension ImagesListCell {
             }
         }
         
-        dateLabel.text = imagesListService.photos[indexpath.row].createdAt?.dateTimeString ?? Date().dateTimeString
+        dateLabel.text = imagesListService.photos[indexpath.row].createdAt?.dateTimeString ?? ""
         
         return status
     }

@@ -14,14 +14,24 @@ final class SingleImageViewController: UIViewController {
     @IBOutlet private weak var singleImageView: UIImageView!
     @IBOutlet private weak var scrollView: UIScrollView!
     
-    // MARK: - Public properties
+    // MARK: - Properties
     
     var largeImageURL: URL?
+    private var alertPresenter: AlertPresenterProtocol?
+    private var image: UIImage! {
+        didSet{
+            guard isViewLoaded else { return }
+            singleImageView.image = image
+            rescaleAndCenterImageInScrollView(image: image)
+        }
+    }
     
     // MARK: - Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        alertPresenter = AlertPresenter(delegate: self)
         
         scrollView.delegate = self
         scrollView.minimumZoomScale = 0.1
@@ -29,10 +39,6 @@ final class SingleImageViewController: UIViewController {
         
         UIBlockingProgressHUD.show()
         largeImageDownload()
-        
-        if let image = singleImageView.image {
-            rescaleAndCenterImageInScrollView(image: image)
-        }
     }
     
     // MARK: - UIStatusBarStyle
@@ -68,11 +74,31 @@ final class SingleImageViewController: UIViewController {
             switch result {
             case.success(let imageResult):
                 self.rescaleAndCenterImageInScrollView(image: imageResult.image)
+                self.image = imageResult.image
             case.failure:
                 print ("There's an error with full picture downloading.")
-                //TODO: add alert to show error
+                self.singleImageAlertShow()
             }
         }
+    }
+    
+    private func singleImageAlertShow() {
+        let alertModel = ExtendedAlertModel(
+            title: "Что-то пошло не так!",
+            message: "Попробовать ещё раз?",
+            firstButtonText: "Не надо",
+            secondButtonText: "Повторить",
+            firstCompletion: { [weak self] in
+                guard let self else { return }
+                self.dismiss(animated: true, completion: nil)
+                print ("Нажата кнопка - Не надо")
+            },
+            secondCompletion: { [weak self] in
+                guard let self else { return }
+                self.largeImageDownload()
+                print ("Нажата кнопка - Повторить")
+            })
+        alertPresenter?.extendedAlertShow(model: alertModel)
     }
     
     // MARK: - IBActions

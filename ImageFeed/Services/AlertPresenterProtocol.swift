@@ -9,4 +9,6 @@ import Foundation
 
 protocol AlertPresenterProtocol: AnyObject {
     func showAlert (model: AlertModel)
+    func extendedAlertShow(model: ExtendedAlertModel)
+    func showAlternativeAlert(model: AlertModel)
 }

@@ -20,6 +20,7 @@ final class ImagesListViewController: UIViewController {
     private var photos: [Photo] = []
     private let imagesListService = ImagesListService.shared
     private var imagesListServiceObserver: NSObjectProtocol?
+    private var alertPresenter: AlertPresenterProtocol?
     
     // MARK: - UIStatusBarStyle
     
@@ -34,6 +35,8 @@ final class ImagesListViewController: UIViewController {
         
         tableView.dataSource = self
         tableView.delegate = self
+        
+        alertPresenter = AlertPresenter(delegate: self)
         
         tableView.contentInset = UIEdgeInsets(top: 12, left: 0, bottom: 12, right: 0)
         
@@ -82,6 +85,18 @@ final class ImagesListViewController: UIViewController {
                 tableView.insertRows(at: indexPaths, with: .automatic)
             } completion: { _ in }
         }
+    }
+    
+    private func imagesListAlertShow() {
+        let alertModel = AlertModel(
+            title: "Что-то пошло не так!",
+            message: "Не удалось поставить лайк.",
+            buttonText: "Ок",
+            completion: { [weak self] in
+                guard let self else { return }
+                self.dismiss(animated: true)
+            })
+        alertPresenter?.showAlternativeAlert(model: alertModel)
     }
 }
 
@@ -153,8 +168,8 @@ extension ImagesListViewController: ImagesListCellDelegate {
                     let isLiked = self.photos[indexPath.row].isLiked
                     cell.isLikedDidSet(isLiked)
                 case .failure:
+                    self.imagesListAlertShow()
                     print ("There's an error with like!")
-                    //TODO: Show alert
                 }
                 UIBlockingProgressHUD.dismiss()
         }
