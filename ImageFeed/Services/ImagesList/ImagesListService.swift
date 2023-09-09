@@ -47,7 +47,7 @@ final class ImagesListService {
                 switch result {
                 case .success (let body):
                     body.forEach { photo in
-                        let date = DateFormatters().iso8601.date(from: photo.createdAt ?? "")
+                        let date = DateFormatters.iso8601.date(from: photo.createdAt ?? "")
                         self.photos.append(Photo(id: photo.id,
                                                  size: CGSize(width: photo.width, height: photo.height),
                                                  createdAt: date,

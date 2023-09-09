@@ -7,9 +7,9 @@
 
 import Foundation
 
-struct DateFormatters {
-    let iso8601 = ISO8601DateFormatter()
-    let long: DateFormatter = {
+enum DateFormatters {
+    static let iso8601 = ISO8601DateFormatter()
+    static let long: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateStyle = .long
         formatter.timeStyle = .none

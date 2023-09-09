@@ -65,13 +65,10 @@ extension ImagesListCell {
         }
         
         if let date = imagesListService.photos[indexPath.row].createdAt {
-            dateLabel.text = DateFormatters().long.string(from: date)
+            dateLabel.text = DateFormatters.long.string(from: date)
         } else {
             dateLabel.text = ""
         }
-        
-        //let date = DateFormatters().long.string(from: self)
-        //dateLabel.text = imagesListService.photos[indexpath.row].createdAt?.dateTimeString ?? ""
         
         return status
     }
