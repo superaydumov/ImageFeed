@@ -44,7 +44,7 @@ final class ImagesListCell: UITableViewCell {
 }
 
 extension ImagesListCell {
-    func configureCell(using photoURLString: String, with indexpath: IndexPath) -> Bool {
+    func configureCell(using photoURLString: String, with indexPath: IndexPath) -> Bool {
         gradientViewSet(self)
         
         var status = false
@@ -64,7 +64,14 @@ extension ImagesListCell {
             }
         }
         
-        dateLabel.text = imagesListService.photos[indexpath.row].createdAt?.dateTimeString ?? ""
+        if let date = imagesListService.photos[indexPath.row].createdAt {
+            dateLabel.text = DateFormatters().long.string(from: date)
+        } else {
+            dateLabel.text = ""
+        }
+        
+        //let date = DateFormatters().long.string(from: self)
+        //dateLabel.text = imagesListService.photos[indexpath.row].createdAt?.dateTimeString ?? ""
         
         return status
     }

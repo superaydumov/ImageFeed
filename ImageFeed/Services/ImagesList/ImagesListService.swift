@@ -47,9 +47,10 @@ final class ImagesListService {
                 switch result {
                 case .success (let body):
                     body.forEach { photo in
+                        let date = DateFormatters().iso8601.date(from: photo.createdAt ?? "")
                         self.photos.append(Photo(id: photo.id,
                                                  size: CGSize(width: photo.width, height: photo.height),
-                                                 createdAt: photo.createdAt?.dateTimeString,
+                                                 createdAt: date,
                                                  welcomeDescription: photo.description,
                                                  thumbImageURL: photo.urls.thumb ?? Keys.noURLRequestThumb,
                                                  largeImageURL: photo.urls.full ?? Keys.noURLRequestFull,
@@ -72,11 +73,15 @@ final class ImagesListService {
         task.resume()
     }
     
-    func changelike(photoId: String, isLike: Bool, _ completion: @escaping (Result<Bool, Error>) -> Void) {
+    func changeLike(photoId: String, isLike: Bool, _ completion: @escaping (Result<Bool, Error>) -> Void) {
         assert(Thread.isMainThread)
         task?.cancel()
         
-        guard let token = token else { return }
+        guard let token = token else {
+            completion(.failure(NetworkError.urlSessionError))
+            print("changeLike method token error")
+            return
+        }
         
         var request: URLRequest?
         if isLike {
@@ -87,17 +92,26 @@ final class ImagesListService {
         
         request?.addValue("Bearer \(token))", forHTTPHeaderField: "Authorization")
 
-        guard let request else { return }
+        guard let request else {
+            completion(.failure(NetworkError.urlSessionError))
+            print("changeLike method request error")
+            return
+        }
 
         let task = urlSession.objectTask(for: request) { [weak self] (result: Result<LikePhotoResult, Error>) in
             DispatchQueue.main.async {
-                guard let self else { return }
+                guard let self else {
+                    completion(.failure(NetworkError.urlSessionError))
+                    print("changeLike method task error")
+                    return
+                }
+                
                 switch result {
                 case .success (let body):
                     let likedByUser = body.photo?.likedByUser ?? false
                     if let index = self.photos.firstIndex(where: { $0.id == body.photo?.id}) {
                         let photo = self.photos[index]
-                        let newphoto = Photo(id: photo.id,
+                        let newPhoto = Photo(id: photo.id,
                                              size: photo.size,
                                              createdAt: photo.createdAt,
                                              welcomeDescription: photo.welcomeDescription,
@@ -105,7 +119,7 @@ final class ImagesListService {
                                              largeImageURL: photo.largeImageURL,
                                              isLiked: likedByUser)
                         
-                        self.photos[index] = newphoto
+                        self.photos[index] = newPhoto
                     }
                     completion(.success(likedByUser))
                     self.task = nil
