@@ -7,6 +7,7 @@
 
 import UIKit
 import Kingfisher
+import WebKit
 
 final class ProfileViewController: UIViewController {
     
@@ -20,9 +21,11 @@ final class ProfileViewController: UIViewController {
     
     private let profileService = ProfileService.shared
     private let oauth2TokenStorage = OAuth2TokenStorage.shared
-    
     private let profileImageService = ProfileImageService.shared
+    private let imagesListService = ImagesListService.shared
+    
     private var profileImageServiceObserver: NSObjectProtocol?
+    private var alertPresenter: AlertPresenterProtocol?
     
     // MARK: - Lifecycle
     
@@ -34,6 +37,8 @@ final class ProfileViewController: UIViewController {
         nameLabelUISetup()
         loginLabelUISetup()
         infoLabelUISetup()
+        
+        alertPresenter = AlertPresenter(delegate: self)
         
         updateProfileDetails(profile: profileService.profile)
     }
@@ -78,6 +83,55 @@ final class ProfileViewController: UIViewController {
         profileImageView.kf.setImage(with: imageURL,
                                      placeholder: UIImage(named: "userpick_stub"),
                                      options: [.processor(processor)])
+    }
+    
+    private func switchToSplashViewController() {
+        guard let window = UIApplication.shared.windows.first else { fatalError("Invalid configuration of switchToSplachViewController")}
+        
+        window.rootViewController = SplashViewController()
+    }
+    
+    private func cleanWebCookies() {
+        HTTPCookieStorage.shared.removeCookies(since: Date.distantPast)
+        WKWebsiteDataStore.default().fetchDataRecords(ofTypes: WKWebsiteDataStore.allWebsiteDataTypes(), completionHandler: { records in
+            records.forEach { record in
+                WKWebsiteDataStore.default().removeData(ofTypes: record.dataTypes, for: [record], completionHandler: {} )
+            }
+        })
+    }
+    
+    private func cleanServicesData() {
+        imagesListService.clean()
+        profileService.clean()
+        profileImageService.clean()
+    }
+    
+    private func logout() {
+        oauth2TokenStorage.token = nil
+        switchToSplashViewController()
+        cleanWebCookies()
+        cleanServicesData()
+        
+        logoutButton.isEnabled = false
+    }
+    
+    private func profileAlertShow() {
+        let alertModel = ExtendedAlertModel(
+            title: "Пока-Пока!",
+            message: "Уверены, что хотите выйти?",
+            firstButtonText: "Да",
+            secondButtonText: "Нет",
+            firstCompletion: { [weak self] in
+                guard let self else { return }
+                self.logout()
+                print ("Нажата кнопка - Да")
+            },
+            secondCompletion: { [weak self] in
+                guard let self else { return }
+                self.dismiss(animated: true)
+                print ("Нажата кнопка - Нет")
+            })
+        alertPresenter?.extendedAlertShow(model: alertModel)
     }
     
     // MARK: - UISetup methods
@@ -158,13 +212,6 @@ final class ProfileViewController: UIViewController {
     // MARK: - @objc methods
     @objc
     private func didTapLogoutButton() {
-        profileImageView.image = UIImage(named: "userpick_stub")
-        nameLabel.text = "User's name"
-        loginLabel.text = "User's login"
-        infoLabel.text = "User's information"
-        
-        oauth2TokenStorage.token = nil
-        
-        logoutButton.isEnabled = false
+        profileAlertShow()
     }
 }

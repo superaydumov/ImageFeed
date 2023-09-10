@@ -14,10 +14,12 @@ final class SingleImageViewController: UIViewController {
     @IBOutlet private weak var singleImageView: UIImageView!
     @IBOutlet private weak var scrollView: UIScrollView!
     
-    // MARK: - Public properties
+    // MARK: - Properties
     
-    var image: UIImage! {
-        didSet {
+    var largeImageURL: URL?
+    private var alertPresenter: AlertPresenterProtocol?
+    private var image: UIImage! {
+        didSet{
             guard isViewLoaded else { return }
             singleImageView.image = image
             rescaleAndCenterImageInScrollView(image: image)
@@ -28,13 +30,15 @@ final class SingleImageViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        singleImageView.image = image
+        
+        alertPresenter = AlertPresenter(delegate: self)
         
         scrollView.delegate = self
         scrollView.minimumZoomScale = 0.1
         scrollView.maximumZoomScale = 1.25
         
-        rescaleAndCenterImageInScrollView(image: image)
+        UIBlockingProgressHUD.show()
+        largeImageDownload()
     }
     
     // MARK: - UIStatusBarStyle
@@ -56,10 +60,45 @@ final class SingleImageViewController: UIViewController {
         let scale = min(maxZoomScale, max(minZoomScale, max(hScale, vScale)))
         scrollView.setZoomScale(scale, animated: false)
         scrollView.layoutIfNeeded()
+
         let newContentSize = scrollView.contentSize
         let x = (newContentSize.width - visibleRectSize.width) / 2
         let y = (newContentSize.height - visibleRectSize.height) / 2
         scrollView.setContentOffset(CGPoint(x: x, y: y), animated: false)
+    }
+    
+    private func largeImageDownload() {
+        singleImageView.kf.setImage(with: largeImageURL) { [weak self] result in
+            UIBlockingProgressHUD.dismiss()
+            guard let self else { return }
+            switch result {
+            case.success(let imageResult):
+                self.rescaleAndCenterImageInScrollView(image: imageResult.image)
+                self.image = imageResult.image
+            case.failure:
+                print ("There's an error with full picture downloading.")
+                self.singleImageAlertShow()
+            }
+        }
+    }
+    
+    private func singleImageAlertShow() {
+        let alertModel = ExtendedAlertModel(
+            title: "Что-то пошло не так!",
+            message: "Попробовать ещё раз?",
+            firstButtonText: "Не надо",
+            secondButtonText: "Повторить",
+            firstCompletion: { [weak self] in
+                guard let self else { return }
+                self.dismiss(animated: true, completion: nil)
+                print ("Нажата кнопка - Не надо")
+            },
+            secondCompletion: { [weak self] in
+                guard let self else { return }
+                self.largeImageDownload()
+                print ("Нажата кнопка - Повторить")
+            })
+        alertPresenter?.extendedAlertShow(model: alertModel)
     }
     
     // MARK: - IBActions
@@ -69,7 +108,7 @@ final class SingleImageViewController: UIViewController {
     }
     
     @IBAction private func didTapShareButton(_ sender: Any) {
-        let share = UIActivityViewController(activityItems: [image ?? UIImage.self], applicationActivities: nil)
+        let share = UIActivityViewController(activityItems: [singleImageView.image as Any], applicationActivities: nil)
         present(share, animated: true)
     }
     
@@ -85,6 +124,8 @@ extension SingleImageViewController: UIScrollViewDelegate {
     func scrollViewDidEndZooming(_ scrollView: UIScrollView, with view: UIView?, atScale scale: CGFloat) {
         UIView.animate(withDuration: 0.5) { [weak self] in
             guard let self else { return }
+
+            guard let image = self.singleImageView.image else { return }
             self.rescaleAndCenterImageInScrollView(image: image)
         }
     }

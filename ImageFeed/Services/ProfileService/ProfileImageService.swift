@@ -39,7 +39,7 @@ final class ProfileImageService {
             guard let self else { return }
                 switch result {
                 case .success (let body):
-                    let avatarURL = body.profileImage?.small
+                    let avatarURL = body.profileImage?.large
                     guard let avatarURL else { return }
                     self.avatarURL = avatarURL
                     completion(.success(avatarURL))
@@ -56,6 +56,12 @@ final class ProfileImageService {
         }
         self.task = task
         task.resume()
+    }
+    
+    func clean() {
+        avatarURL = nil
+        task?.cancel()
+        task = nil
     }
 }
 

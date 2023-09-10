@@ -18,18 +18,59 @@ final class ImagesListCell: UITableViewCell {
     
     // MARK: - Constants
     
-    static let reuseIdentifier = "ImagesListCell"
+    struct Keys {
+        static let reuseIdentifier = "ImagesListCell"
+        static let placeholderImage = "image_placeholder"
+        static let likedButtonOn = "like_button_ON"
+        static let likedButtonOff = "like_button_OFF"
+    }
+    
+    private let imagesListService = ImagesListService.shared
+    weak var delegate: ImagesListCellDelegate?
+    
+    // MARK: - Lifecycle
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        
+        cellImage.kf.cancelDownloadTask()
+    }
+    
+    // MARK: - IBActions
+    
+    @IBAction func likeButtonDidTap(_ sender: Any) {
+        delegate?.imagesListCellDidTapLike(self)
+    }
 }
 
 extension ImagesListCell {
-    func configureCell(image: UIImage?, date: String, isLiked: Bool) {
+    func configureCell(using photoURLString: String, with indexPath: IndexPath) -> Bool {
         gradientViewSet(self)
         
-        cellImage.image = image
-        dateLabel.text = date
-
-        let likeImage = isLiked ? UIImage(named: "like_button_ON") : UIImage(named: "like_button_OFF")
-        likeButton.setImage(likeImage, for: .normal)
+        var status = false
+        
+        guard let photoURL = URL(string: photoURLString) else { return status }
+        
+        let placeholderImage = UIImage(named: Keys.placeholderImage)
+        
+        cellImage.kf.indicatorType = .activity
+        cellImage.kf.setImage(with: photoURL,
+                              placeholder: placeholderImage) { result in
+            switch result {
+            case .success(_):
+                status = true
+            case .failure(let error):
+                print ("There's an error with placeholder picture: \(error)")
+            }
+        }
+        
+        if let date = imagesListService.photos[indexPath.row].createdAt {
+            dateLabel.text = DateFormatters.long.string(from: date)
+        } else {
+            dateLabel.text = ""
+        }
+        
+        return status
     }
 }
 
@@ -46,5 +87,10 @@ extension ImagesListCell {
         gradientView.backgroundColor = UIColor.clear
         gradientView.layer.insertSublayer(gradientViewLayer, at: 0)
         gradientView.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
+    }
+    
+    func isLikedDidSet(_ isLiked: Bool) {
+        let likeImage = isLiked ? UIImage(named: Keys.likedButtonOn) : UIImage(named: Keys.likedButtonOff)
+        likeButton.setImage(likeImage, for: .normal)
     }
 }
