@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		C91E53D22AAC7E8400678E4B /* DateFormatters.swift in Sources */ = {isa = PBXBuildFile; fileRef = C91E53D12AAC7E8400678E4B /* DateFormatters.swift */; };
+		C92C5AC82AAF5DD000C61C23 /* AnimatedGradient.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92C5AC72AAF5DD000C61C23 /* AnimatedGradient.swift */; };
 		C94222842A544CBD0005A92B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94222832A544CBD0005A92B /* AppDelegate.swift */; };
 		C94222862A544CBD0005A92B /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94222852A544CBD0005A92B /* SceneDelegate.swift */; };
 		C94222882A544CBD0005A92B /* ImagesListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94222872A544CBD0005A92B /* ImagesListViewController.swift */; };
@@ -52,6 +53,7 @@
 
 /* Begin PBXFileReference section */
 		C91E53D12AAC7E8400678E4B /* DateFormatters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFormatters.swift; sourceTree = "<group>"; };
+		C92C5AC72AAF5DD000C61C23 /* AnimatedGradient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimatedGradient.swift; sourceTree = "<group>"; };
 		C94222802A544CBD0005A92B /* ImageFeed.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ImageFeed.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C94222832A544CBD0005A92B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C94222852A544CBD0005A92B /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -114,6 +116,14 @@
 				C942228E2A544CC30005A92B /* LaunchScreen.storyboard */,
 			);
 			path = Resources;
+			sourceTree = "<group>";
+		};
+		C92C5AC62AAF5D8C00C61C23 /* Animations */ = {
+			isa = PBXGroup;
+			children = (
+				C92C5AC72AAF5DD000C61C23 /* AnimatedGradient.swift */,
+			);
+			path = Animations;
 			sourceTree = "<group>";
 		};
 		C94222772A544CBD0005A92B = {
@@ -188,6 +198,7 @@
 			isa = PBXGroup;
 			children = (
 				C9F1C1ED2A8D144600B77061 /* AlertPresenter */,
+				C92C5AC62AAF5D8C00C61C23 /* Animations */,
 				C9BD1E632A589CE70052C9BD /* ImagesList */,
 				C98A17B82A851F8A008FBD2A /* OAuth2 */,
 				C9CF59252A9399D40050B833 /* ProfileService */,
@@ -352,6 +363,7 @@
 				C97551242A9A068700167354 /* TabBarController.swift in Sources */,
 				C946407C2A785A90003215B3 /* Constants.swift in Sources */,
 				C9BA2A8C2A9FD1BD007ABA19 /* ImagesListService.swift in Sources */,
+				C92C5AC82AAF5DD000C61C23 /* AnimatedGradient.swift in Sources */,
 				C98A17C42A859C28008FBD2A /* SplashViewController.swift in Sources */,
 				C91E53D22AAC7E8400678E4B /* DateFormatters.swift in Sources */,
 				C9D46BD42A94F50D00E6A93E /* ProfileImageService.swift in Sources */,

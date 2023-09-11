@@ -110,6 +110,8 @@ extension ImagesListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: ImagesListCell.Keys.reuseIdentifier, for: indexPath) as? ImagesListCell else { return UITableViewCell() }
         
+        cell.addCellGradient(size: CGSize(width: cell.bounds.width, height: cell.bounds.height))
+        
         cell.delegate = self
         
         let photo = photos[indexPath.row]

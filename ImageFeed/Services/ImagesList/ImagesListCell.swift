@@ -28,12 +28,26 @@ final class ImagesListCell: UITableViewCell {
     private let imagesListService = ImagesListService.shared
     weak var delegate: ImagesListCellDelegate?
     
+    private let animatedGradient = AnimatedGradient()
+    private var animationLayer: CALayer?
+    
     // MARK: - Lifecycle
     
     override func prepareForReuse() {
         super.prepareForReuse()
         
+        removeCellGradient()
         cellImage.kf.cancelDownloadTask()
+    }
+    
+    // MARK: - Private methods
+    
+    private func removeCellGradient() {
+        animationLayer?.removeFromSuperlayer()
+        
+        likeButton.isHidden = false
+        gradientView.isHidden = false
+        dateLabel.isHidden = false
     }
     
     // MARK: - IBActions
@@ -55,11 +69,15 @@ extension ImagesListCell {
         
         cellImage.kf.indicatorType = .activity
         cellImage.kf.setImage(with: photoURL,
-                              placeholder: placeholderImage) { result in
+                              placeholder: placeholderImage) { [weak self] result in
+            guard let self else { return }
             switch result {
             case .success(_):
+                self.removeCellGradient()
                 status = true
+                
             case .failure(let error):
+                self.removeCellGradient()
                 print ("There's an error with placeholder picture: \(error)")
             }
         }
@@ -92,5 +110,20 @@ extension ImagesListCell {
     func isLikedDidSet(_ isLiked: Bool) {
         let likeImage = isLiked ? UIImage(named: Keys.likedButtonOn) : UIImage(named: Keys.likedButtonOff)
         likeButton.setImage(likeImage, for: .normal)
+    }
+    
+    func addCellGradient(size: CGSize) {
+        let cellGradient = animatedGradient.getGradient(size: size, cornerRadius: cellImage.layer.cornerRadius)
+        var positionSubLayer: UInt32 = 0
+        if let subLayers = cellImage.layer.sublayers {
+            positionSubLayer = UInt32(subLayers.count) + 1
+        }
+        cellImage.layer.insertSublayer(cellGradient, at: positionSubLayer)
+        
+        likeButton.isHidden = true
+        gradientView.isHidden = true
+        dateLabel.isHidden = true
+        
+        animationLayer = cellGradient
     }
 }

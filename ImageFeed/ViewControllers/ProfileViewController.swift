@@ -27,6 +27,9 @@ final class ProfileViewController: UIViewController {
     private var profileImageServiceObserver: NSObjectProtocol?
     private var alertPresenter: AlertPresenterProtocol?
     
+    private let animatedGradient = AnimatedGradient()
+    private var animationLayers = Set<CALayer>()
+    
     // MARK: - Lifecycle
     
     override func viewDidLoad() {
@@ -41,6 +44,8 @@ final class ProfileViewController: UIViewController {
         alertPresenter = AlertPresenter(delegate: self)
         
         updateProfileDetails(profile: profileService.profile)
+        
+        addProfileGradient()
     }
     
     // MARK: - UIStatusBarStyle
@@ -82,7 +87,16 @@ final class ProfileViewController: UIViewController {
         profileImageView.kf.indicatorType = .activity
         profileImageView.kf.setImage(with: imageURL,
                                      placeholder: UIImage(named: "userpick_stub"),
-                                     options: [.processor(processor)])
+                                     options: [.processor(processor)]) { [weak self] result in
+            guard let self else { return }
+            switch result {
+            case .success:
+                self.removeProfileGradients()
+            case .failure:
+                self.removeProfileGradients()
+                profileImageView.image = UIImage(named: "userpick_stub")
+            }
+        }
     }
     
     private func switchToSplashViewController() {
@@ -134,12 +148,54 @@ final class ProfileViewController: UIViewController {
         alertPresenter?.extendedAlertShow(model: alertModel)
     }
     
+    private func addProfileGradient() {
+        DispatchQueue.main.async { [weak self] in
+            guard let self else { return }
+            let avatarGradient = animatedGradient.getGradient(
+                size: CGSize(width: profileImageView.frame.width, height: profileImageView.frame.height),
+                cornerRadius: profileImageView.layer.cornerRadius)
+            profileImageView.layer.addSublayer(avatarGradient)
+            animationLayers.insert(avatarGradient)
+            
+            let nameLabelGradient = animatedGradient.getGradient(
+                size: CGSize(width: nameLabel.frame.width, height: nameLabel.frame.height),
+                cornerRadius: 9)
+            nameLabel.layer.addSublayer(nameLabelGradient)
+            animationLayers.insert(nameLabelGradient)
+            
+            let loginLabelGradient = animatedGradient.getGradient(
+                size: CGSize(width: loginLabel.frame.width, height: loginLabel.frame.height),
+                cornerRadius: 9)
+            loginLabel.layer.addSublayer(loginLabelGradient)
+            animationLayers.insert(loginLabelGradient)
+            
+            let infoLabelGradient = animatedGradient.getGradient(
+                size: CGSize(width: infoLabel.frame.width, height: infoLabel.frame.height),
+                cornerRadius: 9)
+            infoLabel.layer.addSublayer(infoLabelGradient)
+            animationLayers.insert(infoLabelGradient)
+            
+            let logoutButtonGradient = animatedGradient.getGradient(
+                size: CGSize(width: logoutButton.frame.width, height: logoutButton.frame.height),
+                cornerRadius: 9)
+            logoutButton.layer.addSublayer(logoutButtonGradient)
+            animationLayers.insert(logoutButtonGradient)
+        }
+    }
+    
+    private func removeProfileGradients() {
+        for item in animationLayers {
+            item.removeFromSuperlayer()
+        }
+    }
+    
     // MARK: - UISetup methods
     
     private func imageUISetup() {
         let profileImage = UIImage(named: "userpick_photo")
         let imageView = UIImageView(image: profileImage)
         imageView.tintColor = .gray
+        imageView.layer.cornerRadius = 35
         imageView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(imageView)
         
