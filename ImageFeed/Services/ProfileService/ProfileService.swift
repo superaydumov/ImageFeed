@@ -65,7 +65,7 @@ final class ProfileService {
 }
 
 extension ProfileService {
-    private var selfProfileRequest: URLRequest {
+    private var selfProfileRequest: URLRequest? {
             URLRequest.makeHTTPRequest(path: "/me", httpMethod: "GET")
     }
 }

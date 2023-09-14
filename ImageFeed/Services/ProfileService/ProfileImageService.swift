@@ -66,7 +66,7 @@ final class ProfileImageService {
 }
 
 extension ProfileImageService {
-    private func profileImageURLRequest(username: String) -> URLRequest {
+    private func profileImageURLRequest(username: String) -> URLRequest? {
         URLRequest.makeHTTPRequest(path: "/users/\(username)", httpMethod: "GET")
     }
 }

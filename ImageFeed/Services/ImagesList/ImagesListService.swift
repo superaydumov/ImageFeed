@@ -143,18 +143,18 @@ final class ImagesListService {
 }
 
 extension ImagesListService {
-    private func photosRequest(page: Int, perPage: Int) -> URLRequest {
+    private func photosRequest(page: Int, perPage: Int) -> URLRequest? {
             URLRequest.makeHTTPRequest(path: "/photos?"
                                        + "page=\(page)"
                                        + "&&per_page=\(perPage)",
                                        httpMethod: "GET")
     }
     
-    private func likeRequest(photoId: String) -> URLRequest {
+    private func likeRequest(photoId: String) -> URLRequest? {
         URLRequest.makeHTTPRequest(path: "/photos/\(photoId)/like", httpMethod: "POST")
     }
     
-    private func unlikeRequest(photoId: String) -> URLRequest {
+    private func unlikeRequest(photoId: String) -> URLRequest? {
         URLRequest.makeHTTPRequest(path: "/photos/\(photoId)/like", httpMethod: "DELETE")
     }
     

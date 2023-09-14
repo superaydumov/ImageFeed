@@ -50,7 +50,7 @@ final class WebViewViewController: UIViewController, WebViewViewControllerProtoc
     private func progressObservation() {
         estimatedProgressObservation = webView.observe (\.estimatedProgress, changeHandler: { [weak self] _, _ in
             guard let self else { return }
-            presenter?.didUpdateProgressValue(webView.estimatedProgress)
+            self.presenter?.didUpdateProgressValue(webView.estimatedProgress)
         })
     }
     
