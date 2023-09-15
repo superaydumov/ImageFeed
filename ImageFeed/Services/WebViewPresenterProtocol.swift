@@ -8,7 +8,7 @@
 import Foundation
 import WebKit
 
-protocol WebViewPresenterProtocol: AnyObject {
+public protocol WebViewPresenterProtocol: AnyObject {
     var view: WebViewViewControllerProtocol? { get set }
     
     func webViewLoading()
