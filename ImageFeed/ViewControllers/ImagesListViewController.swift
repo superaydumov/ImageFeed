@@ -7,17 +7,28 @@
 
 import UIKit
 
-final class ImagesListViewController: UIViewController {
+final class ImagesListViewController: UIViewController, ImagesListViewControllerProtocol {
     
     // MARK: - IBOutlets
     
-    @IBOutlet private var tableView: UITableView!
+    @IBOutlet var tableView: UITableView!
+    
+    // MARK: - Public properties
+    
+    var presenter: ImagesListPresenterProtocol?
+    var photos: [Photo] = []
+    
+    // MARK: - Public methods
+    
+    func configure(_ presenter: ImagesListPresenterProtocol) {
+        self.presenter = presenter
+        self.presenter?.viewController = self
+    }
     
     // MARK: - Private properties
     
     private let showSingleImageSegueIdentifier = "ShowSingleImage"
     
-    private var photos: [Photo] = []
     private let imagesListService = ImagesListService.shared
     private var imagesListServiceObserver: NSObjectProtocol?
     private var alertPresenter: AlertPresenterProtocol?
@@ -53,6 +64,20 @@ final class ImagesListViewController: UIViewController {
         }
     }
     
+    // MARK: - Public methods
+    
+    func imagesListAlertShow() {
+        let alertModel = AlertModel(
+            title: "Что-то пошло не так!",
+            message: "Не удалось поставить лайк.",
+            buttonText: "Ок",
+            completion: { [weak self] in
+                guard let self else { return }
+                self.dismiss(animated: true)
+            })
+        alertPresenter?.showAlternativeAlert(model: alertModel)
+    }
+    
     // MARK: - Private methods
     
     private func updateImagesList() {
@@ -66,37 +91,9 @@ final class ImagesListViewController: UIViewController {
             queue: .main,
             using: { [weak self] _ in
                 guard let self else { return }
-                self.updateTableViewAnimated()
+                self.presenter?.updateTableViewAnimated()
                 })
-        updateTableViewAnimated()
-    }
-    
-    private func updateTableViewAnimated() {
-        let oldCount = photos.count
-        let newCount = imagesListService.photos.count
-        
-        photos = imagesListService.photos
-        if oldCount != newCount {
-            tableView.performBatchUpdates {
-                var indexPaths: [IndexPath] = []
-                for i in oldCount..<newCount {
-                    indexPaths.append(IndexPath(row: i, section: 0))
-                }
-                tableView.insertRows(at: indexPaths, with: .automatic)
-            } completion: { _ in }
-        }
-    }
-    
-    private func imagesListAlertShow() {
-        let alertModel = AlertModel(
-            title: "Что-то пошло не так!",
-            message: "Не удалось поставить лайк.",
-            buttonText: "Ок",
-            completion: { [weak self] in
-                guard let self else { return }
-                self.dismiss(animated: true)
-            })
-        alertPresenter?.showAlternativeAlert(model: alertModel)
+        presenter?.updateTableViewAnimated()
     }
 }
 
@@ -128,9 +125,7 @@ extension ImagesListViewController: UITableViewDataSource {
 
 extension ImagesListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        if indexPath.row + 1 == imagesListService.photos.count {
-            imagesListService.fetchPhotosNextPage()
-        }
+        presenter?.fetchPhotosNextPage(indexPath: indexPath)
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
@@ -155,23 +150,6 @@ extension ImagesListViewController: UITableViewDelegate {
 extension ImagesListViewController: ImagesListCellDelegate {
     func imagesListCellDidTapLike(_ cell: ImagesListCell) {
         guard let indexPath = tableView.indexPath(for: cell) else { return }
-        let photo = photos[indexPath.row]
-        UIBlockingProgressHUD.show()
-        
-        imagesListService.changeLike(
-            photoId: photo.id,
-            isLike: photo.isLiked) { [weak self] result in
-                guard let self else { return }
-                switch result {
-                case .success:
-                    self.photos = self.imagesListService.photos
-                    let isLiked = self.photos[indexPath.row].isLiked
-                    cell.isLikedDidSet(isLiked)
-                case .failure:
-                    self.imagesListAlertShow()
-                    print ("There's an error with like!")
-                }
-                UIBlockingProgressHUD.dismiss()
-        }
+        presenter?.changeLike(indexPath: indexPath, cell: cell)
     }
 }
