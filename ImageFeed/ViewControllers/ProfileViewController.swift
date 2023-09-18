@@ -41,6 +41,7 @@ final class ProfileViewController: UIViewController, ProfileViewControllerProtoc
         alertPresenter = AlertPresenter(delegate: self)
         
         updateProfileDetails()
+        updateAvatar()
     }
     
     // MARK: - UIStatusBarStyle
@@ -86,7 +87,7 @@ final class ProfileViewController: UIViewController, ProfileViewControllerProtoc
     }
     
     func switchToSplashViewController() {
-        guard let window = UIApplication.shared.windows.first else { fatalError("Invalid configuration of switchToSplachViewController")}
+        guard let window = UIApplication.shared.windows.first else { fatalError("Invalid configuration of switchToSplashViewController")}
         
         window.rootViewController = SplashViewController()
     }

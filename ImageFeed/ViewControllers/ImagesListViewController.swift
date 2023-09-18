@@ -78,9 +78,7 @@ final class ImagesListViewController: UIViewController, ImagesListViewController
         alertPresenter?.showAlternativeAlert(model: alertModel)
     }
     
-    // MARK: - Private methods
-    
-    private func updateImagesList() {
+    func updateImagesList() {
         UIBlockingProgressHUD.show()
         
         imagesListService.fetchPhotosNextPage()
