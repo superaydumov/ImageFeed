@@ -14,6 +14,7 @@ final class ImagesListService {
     private var lastLoadedPage: Int?
     private (set) var photos: [Photo] = []
     private var task: URLSessionTask?
+    private var likeTask: URLSessionTask?
     
     static let shared = ImagesListService()
     private init() {}
@@ -75,7 +76,8 @@ final class ImagesListService {
     
     func changeLike(photoId: String, isLike: Bool, _ completion: @escaping (Result<Bool, Error>) -> Void) {
         assert(Thread.isMainThread)
-        task?.cancel()
+        if likeTask != nil { return }
+        likeTask?.cancel()
         
         guard let token = token else {
             completion(.failure(NetworkError.urlSessionError))
@@ -98,7 +100,7 @@ final class ImagesListService {
             return
         }
 
-        let task = urlSession.objectTask(for: request) { [weak self] (result: Result<LikePhotoResult, Error>) in
+        let likeTask = urlSession.objectTask(for: request) { [weak self] (result: Result<LikePhotoResult, Error>) in
             DispatchQueue.main.async {
                 guard let self else {
                     completion(.failure(NetworkError.urlSessionError))
@@ -122,7 +124,8 @@ final class ImagesListService {
                         self.photos[index] = newPhoto
                     }
                     completion(.success(likedByUser))
-                    self.task = nil
+                    self.likeTask = nil
+                    print("changeLike method success case.")
                     
                 case .failure(let error):
                     completion(.failure(error))
@@ -130,8 +133,8 @@ final class ImagesListService {
                 }
             }
         }
-        self.task = task
-        task.resume()
+        self.likeTask = likeTask
+        likeTask.resume()
     }
     
     func clean() {

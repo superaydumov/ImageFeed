@@ -58,6 +58,7 @@ final class AuthViewController: UIViewController {
         loginButton.setTitleColor(.ypBlack, for: .normal)
         loginButton.backgroundColor = .ypWhite
         loginButton.layer.cornerRadius = 16
+        loginButton.accessibilityIdentifier = "Authentificate"
     }
 }
 

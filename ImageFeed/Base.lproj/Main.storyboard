@@ -65,6 +65,7 @@
                                                 </view>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="y9Z-8F-TpU" userLabel="likeButton">
                                                     <rect key="frame" x="354" y="4" width="44" height="44"/>
+                                                    <accessibility key="accessibilityConfiguration" identifier="likeButton"/>
                                                     <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                                     <state key="normal" image="like_button_ON"/>
                                                     <connections>
@@ -106,7 +107,7 @@
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="" image="tab_editorial_active" id="nBe-tV-e7W"/>
-                    <navigationItem key="navigationItem" id="7iU-p8-Lw9"/>
+                    <navigationItem key="navigationItem" customizationIdentifier="" id="7iU-p8-Lw9"/>
                     <connections>
                         <outlet property="tableView" destination="zJi-sd-Buf" id="vyP-Jt-Y6y"/>
                         <segue destination="lVR-kg-EaO" kind="presentation" identifier="ShowSingleImage" modalPresentationStyle="fullScreen" id="dO9-Yr-cai"/>
@@ -271,6 +272,7 @@
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vdN-cn-UGs" userLabel="Back Button">
                                 <rect key="frame" x="9" y="9" width="48" height="48"/>
+                                <accessibility key="accessibilityConfiguration" identifier="backButton"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="48" id="Lfl-lV-LgT"/>
                                     <constraint firstAttribute="width" constant="48" id="mcl-jB-Quf"/>

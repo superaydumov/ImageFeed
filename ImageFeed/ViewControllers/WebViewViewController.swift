@@ -31,6 +31,8 @@ final class WebViewViewController: UIViewController, WebViewViewControllerProtoc
         
         presenter?.webViewLoading()
         progressObservation()
+        
+        webView.accessibilityIdentifier = "UnsplashWebView"
     }
     
     // MARK: - Methods
