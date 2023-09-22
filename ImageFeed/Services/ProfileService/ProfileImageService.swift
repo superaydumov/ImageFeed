@@ -6,7 +6,6 @@
 //
 
 import Foundation
-//podfo5-Jenqid-nypmib
 
 final class ProfileImageService {
     
@@ -19,7 +18,7 @@ final class ProfileImageService {
     
     private let urlSession = URLSession.shared
     
-    private var task: URLSessionTask?
+    private var profileImageTask: URLSessionTask?
     
     static let didChangeNotification = Notification.Name(rawValue: "ProfileImageProviderDidChange")
     
@@ -27,41 +26,47 @@ final class ProfileImageService {
     
     func fetchProfileImageURL(token: String, username: String, _ completion: @escaping (Result<String, Error>) -> Void) {
         assert(Thread.isMainThread)
-        if avatarURL != nil { return }
-        task?.cancel()
         
-        var request: URLRequest? = profileImageURLRequest(username: username)
-        request?.addValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
-        
-        guard let request else { return }
-        
-        let task = urlSession.objectTask(for: request) { [weak self] (result: Result<UserResult, Error>) in
-            guard let self else { return }
-                switch result {
-                case .success (let body):
-                    let avatarURL = body.profileImage?.large
-                    guard let avatarURL else { return }
-                    self.avatarURL = avatarURL
-                    completion(.success(avatarURL))
-                    
-                    NotificationCenter.default.post(
-                        name: ProfileImageService.didChangeNotification,
-                        object: self,
-                        userInfo: ["URL": avatarURL])
-                    
-                case .failure(let error):
-                    completion(.failure(error))
-                    self.avatarURL = nil
+        DispatchQueue.global(qos: .userInitiated).async { [weak self] in
+            guard let self, self.avatarURL == nil else { return }
+            
+            self.profileImageTask?.cancel()
+            
+            var request: URLRequest? = profileImageURLRequest(username: username)
+            request?.addValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+            
+            guard let request else { return }
+            
+            let task = urlSession.objectTask(for: request) { [weak self] (result: Result<UserResult, Error>) in
+                guard let self else { return }
+                DispatchQueue.main.async {
+                    switch result {
+                    case .success (let body):
+                        let avatarURL = body.profileImage?.large
+                        guard let avatarURL else { return }
+                        self.avatarURL = avatarURL
+                        completion(.success(avatarURL))
+                        
+                        NotificationCenter.default.post(
+                            name: ProfileImageService.didChangeNotification,
+                            object: self,
+                            userInfo: ["URL": avatarURL])
+                        
+                    case .failure(let error):
+                        completion(.failure(error))
+                        self.avatarURL = nil
+                    }
                 }
+            }
+            self.profileImageTask = task
+            task.resume()
         }
-        self.task = task
-        task.resume()
     }
     
     func clean() {
         avatarURL = nil
-        task?.cancel()
-        task = nil
+        profileImageTask?.cancel()
+        profileImageTask = nil
     }
 }
 

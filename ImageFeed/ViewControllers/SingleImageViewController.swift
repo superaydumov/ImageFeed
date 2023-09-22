@@ -68,16 +68,19 @@ final class SingleImageViewController: UIViewController {
     }
     
     private func largeImageDownload() {
-        singleImageView.kf.setImage(with: largeImageURL) { [weak self] result in
-            UIBlockingProgressHUD.dismiss()
+        DispatchQueue.main.async { [weak self] in
             guard let self else { return }
-            switch result {
-            case.success(let imageResult):
-                self.rescaleAndCenterImageInScrollView(image: imageResult.image)
-                self.image = imageResult.image
-            case.failure:
-                print ("There's an error with full picture downloading.")
-                self.singleImageAlertShow()
+            self.singleImageView.kf.setImage(with: self.largeImageURL) { [weak self] result in
+                UIBlockingProgressHUD.dismiss()
+                guard let self else { return }
+                switch result {
+                case.success(let imageResult):
+                    self.rescaleAndCenterImageInScrollView(image: imageResult.image)
+                    self.image = imageResult.image
+                case.failure:
+                    print ("There's an error with full picture downloading.")
+                    self.singleImageAlertShow()
+                }
             }
         }
     }

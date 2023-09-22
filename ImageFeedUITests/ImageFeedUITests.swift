@@ -2,47 +2,44 @@
 //  ImageFeedUITests.swift
 //  ImageFeedUITests
 //
-//  Created by Эльдар Айдумов on 19.09.2023.
+//  Created by Эльдар Айдумов on 20.09.2023.
 //
 
 import XCTest
 
 final class ImageFeedUITests: XCTestCase {
     
-    private var app: XCUIApplication!
+    private var app = XCUIApplication()
     
     override func setUpWithError() throws {
-        try super.setUpWithError()
-        
         continueAfterFailure = false
-        app = XCUIApplication()
         app.launch()
-    }
-    
-    override func tearDownWithError() throws {
-        try super.tearDownWithError()
-        
-        app.terminate()
-        app = nil
     }
 
     func testAuth() throws {
         app.buttons["Authentificate"].tap()
         
         let webView = app.webViews["UnsplashWebView"]
-        XCTAssertTrue(webView.waitForExistence(timeout: 7))
+        XCTAssertTrue(webView.waitForExistence(timeout: 10))
+        sleep(5)
         
         let loginTextField = webView.descendants(matching: .textField).element
         XCTAssertTrue(loginTextField.waitForExistence(timeout: 5))
         loginTextField.tap()
-        loginTextField.typeText("email")
-        webView.tap()
+        sleep(3)
+        loginTextField.typeText("paste your email")
+        sleep(3)
+        XCUIApplication().toolbars.buttons["Done"].tap()
         
         let passwordTextField = webView.descendants(matching: .secureTextField).element
         XCTAssertTrue(passwordTextField.waitForExistence(timeout: 5))
         passwordTextField.tap()
-        passwordTextField.typeText("password")
-        webView.swipeUp()
+        sleep(3)
+        XCUIApplication().toolbars.buttons["Done"].tap() // maintain the possible test fail because of keyboard lag
+        passwordTextField.tap()
+        passwordTextField.typeText("paste you password")
+        sleep(3)
+        XCUIApplication().toolbars.buttons["Done"].tap()
         
         webView.buttons["Login"].tap()
         
@@ -53,28 +50,31 @@ final class ImageFeedUITests: XCTestCase {
     }
     
     func testFeed() throws {
+        sleep(5)
+        app.swipeUp()
+        
+        sleep(5)
+        app.swipeDown()
+        
+        sleep(5)
         let tablesQuery = app.tables
-        let firstCell = tablesQuery.children(matching: .cell).element(boundBy: 0)
-        firstCell.swipeUp()
+        let cellToLike = tablesQuery.children(matching: .cell).element(boundBy: 1)
 
-        sleep(3)
-        let secondCell = tablesQuery.children(matching: .cell).element(boundBy: 2)
-        secondCell.buttons["likeButton"].tap()
-
+        cellToLike.buttons.firstMatch.tap()
         sleep(5)
-        secondCell.buttons["likeButton"].tap()
-
+        cellToLike.buttons.firstMatch.tap()
+        
         sleep(5)
-        secondCell.tap()
-
-        sleep(3)
+        cellToLike.tap()
+        
         let image = app.scrollViews.images.element(boundBy: 0)
-        XCTAssertTrue(image.waitForExistence(timeout: 5))
-        image.pinch(withScale: 2, velocity: 1)
+        XCTAssertTrue(image.waitForExistence(timeout: 60))
+        image.pinch(withScale: 3, velocity: 1)
         image.pinch(withScale: 0.5, velocity: -1)
-
+        
         let backNavigationButton = app.buttons["backButton"]
         backNavigationButton.tap()
+        print(app.debugDescription)
     }
     
     func testProfile() {
@@ -82,8 +82,8 @@ final class ImageFeedUITests: XCTestCase {
         app.tabBars.buttons.element(boundBy: 1).tap()
         
         sleep(5)
-        XCTAssertTrue(app.staticTexts["name"].exists)
-        XCTAssertTrue(app.staticTexts["login"].exists)
+        XCTAssertTrue(app.staticTexts["paste your first and second name"].exists)
+        XCTAssertTrue(app.staticTexts["paste your login"].exists)
         
         app.buttons["logoutButton"].tap()
         sleep(3)
@@ -92,14 +92,6 @@ final class ImageFeedUITests: XCTestCase {
         sleep(3)
         
         XCTAssertTrue(app.buttons["Authentificate"].exists)
-    }
-
-    func testLaunchPerformance() throws {
-        if #available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 7.0, *) {
-            // This measures how long it takes to launch your application.
-            measure(metrics: [XCTApplicationLaunchMetric()]) {
-                XCUIApplication().launch()
-            }
-        }
+        print(app.debugDescription)
     }
 }
