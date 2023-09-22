@@ -9,7 +9,12 @@ import UIKit
 import Kingfisher
 import WebKit
 
-final class ProfileViewController: UIViewController {
+final class ProfileViewController: UIViewController, ProfileViewControllerProtocol {
+    
+    // MARK: - Public properties
+    
+    var presenter: ProfilePresenterProtocol?
+    
     
     // MARK: - Private properties
     
@@ -18,11 +23,6 @@ final class ProfileViewController: UIViewController {
     private var infoLabel: UILabel!
     private var profileImageView: UIImageView!
     private var logoutButton: UIButton!
-    
-    private let profileService = ProfileService.shared
-    private let oauth2TokenStorage = OAuth2TokenStorage.shared
-    private let profileImageService = ProfileImageService.shared
-    private let imagesListService = ImagesListService.shared
     
     private var profileImageServiceObserver: NSObjectProtocol?
     private var alertPresenter: AlertPresenterProtocol?
@@ -40,7 +40,8 @@ final class ProfileViewController: UIViewController {
         
         alertPresenter = AlertPresenter(delegate: self)
         
-        updateProfileDetails(profile: profileService.profile)
+        updateProfileDetails()
+        updateAvatar()
     }
     
     // MARK: - UIStatusBarStyle
@@ -49,13 +50,17 @@ final class ProfileViewController: UIViewController {
         .lightContent
     }
     
-    // MARK: - Private methods
+    // MARK: - Public methods
     
-    private func updateProfileDetails(profile: Profile?) {
-        guard let profile else { return }
-        nameLabel.text = profile.name
-        loginLabel.text = profile.loginName
-        infoLabel.text = profile.bio
+    func updateProfileDetails() {
+        var profileDetails: [String]?
+        profileDetails = presenter?.updateProfileDetails()
+
+        guard let profileDetails else { return }
+
+        nameLabel.text = profileDetails[0]
+        loginLabel.text = profileDetails[1]
+        infoLabel.text = profileDetails[2]
         
         profileImageServiceObserver = NotificationCenter.default.addObserver(
             forName: ProfileImageService.didChangeNotification,
@@ -69,51 +74,30 @@ final class ProfileViewController: UIViewController {
         updateAvatar()
     }
     
-    private func updateAvatar() {
-        guard
-            let profileImageURL = profileImageService.avatarURL,
-            let imageURL = URL(string: profileImageURL)
-        else { return }
+    func updateAvatar() {
         let cache = ImageCache.default
         cache.clearMemoryCache()
         cache.clearDiskCache()
 
         let processor = RoundCornerImageProcessor(cornerRadius: 61)
         profileImageView.kf.indicatorType = .activity
-        profileImageView.kf.setImage(with: imageURL,
+        profileImageView.kf.setImage(with: presenter?.avatarURL(),
                                      placeholder: UIImage(named: "userpick_stub"),
                                      options: [.processor(processor)])
     }
     
-    private func switchToSplashViewController() {
-        guard let window = UIApplication.shared.windows.first else { fatalError("Invalid configuration of switchToSplachViewController")}
+    func switchToSplashViewController() {
+        guard let window = UIApplication.shared.windows.first else { fatalError("Invalid configuration of switchToSplashViewController")}
         
         window.rootViewController = SplashViewController()
     }
     
-    private func cleanWebCookies() {
-        HTTPCookieStorage.shared.removeCookies(since: Date.distantPast)
-        WKWebsiteDataStore.default().fetchDataRecords(ofTypes: WKWebsiteDataStore.allWebsiteDataTypes(), completionHandler: { records in
-            records.forEach { record in
-                WKWebsiteDataStore.default().removeData(ofTypes: record.dataTypes, for: [record], completionHandler: {} )
-            }
-        })
-    }
+    func configure(_ presenter: ProfilePresenterProtocol) {
+            self.presenter = presenter
+            self.presenter?.viewController = self
+        }
     
-    private func cleanServicesData() {
-        imagesListService.clean()
-        profileService.clean()
-        profileImageService.clean()
-    }
-    
-    private func logout() {
-        oauth2TokenStorage.token = nil
-        switchToSplashViewController()
-        cleanWebCookies()
-        cleanServicesData()
-        
-        logoutButton.isEnabled = false
-    }
+    // MARK: - Private methods
     
     private func profileAlertShow() {
         let alertModel = ExtendedAlertModel(
@@ -123,12 +107,14 @@ final class ProfileViewController: UIViewController {
             secondButtonText: "Нет",
             firstCompletion: { [weak self] in
                 guard let self else { return }
-                self.logout()
+                self.presenter?.logout()
+                self.logoutButton.isEnabled = false
                 print ("Нажата кнопка - Да")
             },
             secondCompletion: { [weak self] in
                 guard let self else { return }
                 self.dismiss(animated: true)
+                self.logoutButton.isEnabled = true
                 print ("Нажата кнопка - Нет")
             })
         alertPresenter?.extendedAlertShow(model: alertModel)
@@ -163,6 +149,8 @@ final class ProfileViewController: UIViewController {
         
         logoutButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16).isActive = true
         logoutButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 45).isActive = true
+        
+        logoutButton.accessibilityIdentifier = "logoutButton"
         
         self.logoutButton = logoutButton
     }
@@ -210,6 +198,7 @@ final class ProfileViewController: UIViewController {
     }
     
     // MARK: - @objc methods
+    
     @objc
     private func didTapLogoutButton() {
         profileAlertShow()

@@ -42,6 +42,8 @@ final class AlertPresenter: AlertPresenterProtocol {
         alert.addAction(firstAction)
         alert.addAction(secondAction)
         
+        alert.view.accessibilityIdentifier = "extendedAlert"
+        
         delegate?.present(alert, animated: true, completion: nil)
     }
 }

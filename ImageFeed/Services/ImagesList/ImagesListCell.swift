@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class ImagesListCell: UITableViewCell {
+public final class ImagesListCell: UITableViewCell {
     
     // MARK: - OBOutlets
     
@@ -30,7 +30,7 @@ final class ImagesListCell: UITableViewCell {
     
     // MARK: - Lifecycle
     
-    override func prepareForReuse() {
+    public override func prepareForReuse() {
         super.prepareForReuse()
         
         cellImage.kf.cancelDownloadTask()

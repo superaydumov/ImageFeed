@@ -65,6 +65,7 @@
                                                 </view>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="y9Z-8F-TpU" userLabel="likeButton">
                                                     <rect key="frame" x="354" y="4" width="44" height="44"/>
+                                                    <accessibility key="accessibilityConfiguration" identifier="likeButton"/>
                                                     <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                                     <state key="normal" image="like_button_ON"/>
                                                     <connections>
@@ -86,6 +87,9 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <accessibility key="accessibilityConfiguration" identifier="cell">
+                                            <bool key="isElement" value="YES"/>
+                                        </accessibility>
                                         <connections>
                                             <outlet property="cellImage" destination="JrK-8X-HCS" id="mA8-LK-riz"/>
                                             <outlet property="dateLabel" destination="LEc-Ae-sdO" id="Azy-pb-Q8S"/>
@@ -106,7 +110,7 @@
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="" image="tab_editorial_active" id="nBe-tV-e7W"/>
-                    <navigationItem key="navigationItem" id="7iU-p8-Lw9"/>
+                    <navigationItem key="navigationItem" customizationIdentifier="" id="7iU-p8-Lw9"/>
                     <connections>
                         <outlet property="tableView" destination="zJi-sd-Buf" id="vyP-Jt-Y6y"/>
                         <segue destination="lVR-kg-EaO" kind="presentation" identifier="ShowSingleImage" modalPresentationStyle="fullScreen" id="dO9-Yr-cai"/>
@@ -162,7 +166,7 @@
         <!--Web View View Controller-->
         <scene sceneID="6KQ-ZH-fdX">
             <objects>
-                <viewController id="eSB-rp-iBO" customClass="WebViewViewController" customModule="ImageFeed" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="WebViewViewController" id="eSB-rp-iBO" customClass="WebViewViewController" customModule="ImageFeed" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="JZP-u3-OuS">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -271,6 +275,7 @@
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vdN-cn-UGs" userLabel="Back Button">
                                 <rect key="frame" x="9" y="9" width="48" height="48"/>
+                                <accessibility key="accessibilityConfiguration" identifier="backButton"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="48" id="Lfl-lV-LgT"/>
                                     <constraint firstAttribute="width" constant="48" id="mcl-jB-Quf"/>

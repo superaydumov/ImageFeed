@@ -13,7 +13,8 @@ final class ImagesListService {
     
     private var lastLoadedPage: Int?
     private (set) var photos: [Photo] = []
-    private var task: URLSessionTask?
+    private var fetchPhotosTask: URLSessionTask?
+    private var likeTask: URLSessionTask?
     
     static let shared = ImagesListService()
     private init() {}
@@ -33,128 +34,141 @@ final class ImagesListService {
         let nextPage = nextPageDownload()
 
         assert(Thread.isMainThread)
-        if task != nil { return }
-        guard let token = token else { return }
 
-        var request: URLRequest? = photosRequest(page: nextPage, perPage: 10)
-        request?.addValue("Bearer \(token))", forHTTPHeaderField: "Authorization")
+        DispatchQueue.global(qos: .userInitiated).async { [weak self] in
+            guard let self, self.fetchPhotosTask == nil else { return }
 
-        guard let request else { return }
+            self.fetchPhotosTask?.cancel()
 
-        let task = urlSession.objectTask(for: request) { [weak self] (result: Result<[PhotoResult], Error>) in
-            DispatchQueue.main.async {
+            guard let token = self.token else { return }
+
+            var request: URLRequest? = photosRequest(page: nextPage, perPage: 10)
+            request?.addValue("Bearer \(token))", forHTTPHeaderField: "Authorization")
+
+            guard let request else { return }
+
+            let task = self.urlSession.objectTask(for: request) { [weak self] (result: Result<[PhotoResult], Error>) in
                 guard let self else { return }
-                switch result {
-                case .success (let body):
-                    body.forEach { photo in
-                        let date = DateFormatters.iso8601.date(from: photo.createdAt ?? "")
-                        self.photos.append(Photo(id: photo.id,
-                                                 size: CGSize(width: photo.width, height: photo.height),
-                                                 createdAt: date,
-                                                 welcomeDescription: photo.description,
-                                                 thumbImageURL: photo.urls.thumb ?? Keys.noURLRequestThumb,
-                                                 largeImageURL: photo.urls.full ?? Keys.noURLRequestFull,
-                                                 isLiked: photo.likedByUser))
+                DispatchQueue.main.async {
+                    switch result {
+                    case .success (let body):
+                        body.forEach { photo in
+                            let date = DateFormatters.iso8601.date(from: photo.createdAt ?? "")
+                            self.photos.append(Photo(id: photo.id,
+                                                     size: CGSize(width: photo.width, height: photo.height),
+                                                     createdAt: date,
+                                                     welcomeDescription: photo.description,
+                                                     thumbImageURL: photo.urls.thumb ?? Keys.noURLRequestThumb,
+                                                     largeImageURL: photo.urls.full ?? Keys.noURLRequestFull,
+                                                     isLiked: photo.likedByUser))
+                        }
+                        self.lastLoadedPage = nextPage
+
+                        NotificationCenter.default.post(
+                            name: ImagesListService.didChangeNotification,
+                            object: self,
+                            userInfo: ["Photos": self.photos])
+
+                        self.fetchPhotosTask = nil
+                    case .failure(let error):
+                        print ("There's a problem with photos downloading: (\(error)).")
                     }
-                    self.lastLoadedPage = nextPage
-
-                    NotificationCenter.default.post(
-                        name: ImagesListService.didChangeNotification,
-                        object: self,
-                        userInfo: ["Photos": self.photos])
-
-                    self.task = nil
-                case .failure(let error):
-                    print ("There's a problem with photos downloading: (\(error)).")
                 }
             }
+            self.fetchPhotosTask = task
+            task.resume()
         }
-        self.task = task
-        task.resume()
     }
-    
-    func changeLike(photoId: String, isLike: Bool, _ completion: @escaping (Result<Bool, Error>) -> Void) {
+
+
+    func changeLike(photoId: String, isLike: Bool, completion: @escaping (Result<Bool, Error>) -> Void) {
         assert(Thread.isMainThread)
-        task?.cancel()
-        
-        guard let token = token else {
-            completion(.failure(NetworkError.urlSessionError))
-            print("changeLike method token error")
-            return
-        }
-        
-        var request: URLRequest?
-        if isLike {
-            request = unlikeRequest(photoId: photoId)
-        } else {
-            request = likeRequest(photoId: photoId)
-        }
-        
-        request?.addValue("Bearer \(token))", forHTTPHeaderField: "Authorization")
 
-        guard let request else {
-            completion(.failure(NetworkError.urlSessionError))
-            print("changeLike method request error")
-            return
-        }
+        DispatchQueue.global(qos: .userInitiated).async { [weak self] in
+            guard let self, self.likeTask == nil else { return }
 
-        let task = urlSession.objectTask(for: request) { [weak self] (result: Result<LikePhotoResult, Error>) in
-            DispatchQueue.main.async {
+            self.likeTask?.cancel()
+
+            guard let token = self.token else {
+                completion(.failure(NetworkError.urlSessionError))
+                print("changeLike method token error")
+                return
+            }
+
+            var request: URLRequest?
+            if isLike {
+                request = unlikeRequest(photoId: photoId)
+            } else {
+                request = likeRequest(photoId: photoId)
+            }
+
+            request?.addValue("Bearer \(token))", forHTTPHeaderField: "Authorization")
+
+            guard let request else {
+                completion(.failure(NetworkError.urlSessionError))
+                print("changeLike method request error")
+                return
+            }
+
+            let task = self.urlSession.objectTask(for: request) { [weak self] (result: Result<LikePhotoResult, Error>) in
                 guard let self else {
                     completion(.failure(NetworkError.urlSessionError))
-                    print("changeLike method task error")
                     return
                 }
-                
-                switch result {
-                case .success (let body):
-                    let likedByUser = body.photo?.likedByUser ?? false
-                    if let index = self.photos.firstIndex(where: { $0.id == body.photo?.id}) {
-                        let photo = self.photos[index]
-                        let newPhoto = Photo(id: photo.id,
-                                             size: photo.size,
-                                             createdAt: photo.createdAt,
-                                             welcomeDescription: photo.welcomeDescription,
-                                             thumbImageURL: photo.thumbImageURL,
-                                             largeImageURL: photo.largeImageURL,
-                                             isLiked: likedByUser)
-                        
-                        self.photos[index] = newPhoto
+                DispatchQueue.main.async {
+                    switch result {
+                    case .success (let body):
+                        let likedByUser = body.photo?.likedByUser ?? false
+                        if let index = self.photos.firstIndex(where: {$0.id == body.photo?.id}) {
+                            let photo = self.photos[index]
+                            let newPhoto = Photo(id: photo.id,
+                                                 size: photo.size,
+                                                 createdAt: photo.createdAt,
+                                                 welcomeDescription: photo.welcomeDescription,
+                                                 thumbImageURL: photo.thumbImageURL,
+                                                 largeImageURL: photo.largeImageURL,
+                                                 isLiked: likedByUser)
+
+                            self.photos[index] = newPhoto
+                        }
+                        completion(.success(likedByUser))
+                        self.likeTask = nil
+                        print("changeLike method success case.")
+
+                    case .failure(let error):
+                        completion(.failure(error))
+                        print ("There's a problem with like request: \(error).")
                     }
-                    completion(.success(likedByUser))
-                    self.task = nil
-                    
-                case .failure(let error):
-                    completion(.failure(error))
-                    print ("There's a problem with like request: \(error).")
                 }
             }
+            self.likeTask = task
+            task.resume()
         }
-        self.task = task
-        task.resume()
     }
     
     func clean() {
         photos = []
         lastLoadedPage = nil
-        task?.cancel()
-        task = nil
+        fetchPhotosTask?.cancel()
+        fetchPhotosTask = nil
+        likeTask?.cancel()
+        likeTask = nil
     }
 }
 
 extension ImagesListService {
-    private func photosRequest(page: Int, perPage: Int) -> URLRequest {
+    private func photosRequest(page: Int, perPage: Int) -> URLRequest? {
             URLRequest.makeHTTPRequest(path: "/photos?"
                                        + "page=\(page)"
                                        + "&&per_page=\(perPage)",
                                        httpMethod: "GET")
     }
     
-    private func likeRequest(photoId: String) -> URLRequest {
+    private func likeRequest(photoId: String) -> URLRequest? {
         URLRequest.makeHTTPRequest(path: "/photos/\(photoId)/like", httpMethod: "POST")
     }
     
-    private func unlikeRequest(photoId: String) -> URLRequest {
+    private func unlikeRequest(photoId: String) -> URLRequest? {
         URLRequest.makeHTTPRequest(path: "/photos/\(photoId)/like", httpMethod: "DELETE")
     }
     
