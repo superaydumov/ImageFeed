@@ -19,10 +19,8 @@ final class ImagesListPresenter: ImagesListPresenterProtocol {
     
     // MARK: - Public methods
     
-    func fetchPhotosNextPage(indexPath: IndexPath) {
-        if indexPath.row + 1 == imagesListService.photos.count {
-            imagesListService.fetchPhotosNextPage()
-        }
+    func fetchPhotosNextPage() {
+        imagesListService.fetchPhotosNextPage()
     }
     
     func changeLike(indexPath: IndexPath, cell: ImagesListCell) {

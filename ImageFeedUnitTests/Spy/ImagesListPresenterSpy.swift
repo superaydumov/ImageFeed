@@ -14,7 +14,7 @@ final class ImagesListPresenterSpy: ImagesListPresenterProtocol {
     var changeLike = false
     var fetchIsCalled = false
     
-    func fetchPhotosNextPage(indexPath: IndexPath) {
+    func fetchPhotosNextPage() {
         fetchIsCalled = true
     }
     

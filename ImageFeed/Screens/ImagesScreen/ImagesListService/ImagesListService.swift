@@ -15,6 +15,7 @@ final class ImagesListService {
     private (set) var photos: [Photo] = []
     private var fetchPhotosTask: URLSessionTask?
     private var likeTask: URLSessionTask?
+    private let perPage = 10
     
     static let shared = ImagesListService()
     private init() {}
@@ -42,7 +43,7 @@ final class ImagesListService {
 
             guard let token = self.token else { return }
 
-            var request: URLRequest? = photosRequest(page: nextPage, perPage: 10)
+            var request: URLRequest? = photosRequest(page: nextPage, perPage: perPage)
             request?.addValue("Bearer \(token))", forHTTPHeaderField: "Authorization")
 
             guard let request else { return }

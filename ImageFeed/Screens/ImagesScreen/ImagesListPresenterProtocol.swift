@@ -10,7 +10,7 @@ import Foundation
 public protocol ImagesListPresenterProtocol: AnyObject {
     var viewController: ImagesListViewControllerProtocol? { get set }
     
-    func fetchPhotosNextPage(indexPath: IndexPath)
+    func fetchPhotosNextPage()
     func changeLike(indexPath: IndexPath, cell: ImagesListCell)
     func updateTableViewAnimated()
 }
