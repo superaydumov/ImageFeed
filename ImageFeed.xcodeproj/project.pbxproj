@@ -190,6 +190,86 @@
 			path = ImageFeedUITests;
 			sourceTree = "<group>";
 		};
+		C91F81E42ABEF53E00335F16 /* Screens */ = {
+			isa = PBXGroup;
+			children = (
+				C91F81E52ABEF54600335F16 /* AuthScreen */,
+				C91F81E72ABEF7E000335F16 /* ImagesScreen */,
+				C91F81E62ABEF68A00335F16 /* ProfileScreen */,
+				C91F81E82ABEF88200335F16 /* SplashScreen */,
+				C91F81E92ABEF95F00335F16 /* SingleImageScreen */,
+			);
+			path = Screens;
+			sourceTree = "<group>";
+		};
+		C91F81E52ABEF54600335F16 /* AuthScreen */ = {
+			isa = PBXGroup;
+			children = (
+				C91F81EA2ABEF9C200335F16 /* AuthService */,
+				C9AD10792AB3AD5C006CD720 /* AuthHelper.swift */,
+				C9AD10772AB3AC37006CD720 /* AuthHelperProtocol.swift */,
+				C9F38BFF2A7C516400C83E4A /* AuthViewController.swift */,
+				C98A17C02A85957B008FBD2A /* AuthViewControllerDelegate.swift */,
+				C9F38C022A828B0000C83E4A /* WebViewViewController.swift */,
+				C9AD10752AB3541B006CD720 /* WebViewPresenter.swift */,
+				C9AD10722AB35355006CD720 /* WebViewPresenterProtocol.swift */,
+				C98A17BE2A859505008FBD2A /* WebViewViewControllerDelegate.swift */,
+				C9AD10702AB352E6006CD720 /* WebViewViewControllerProtocol.swift */,
+			);
+			path = AuthScreen;
+			sourceTree = "<group>";
+		};
+		C91F81E62ABEF68A00335F16 /* ProfileScreen */ = {
+			isa = PBXGroup;
+			children = (
+				C9CF59252A9399D40050B833 /* ProfileService */,
+				C9B571CD2AB753CE000DD8D7 /* ProfilePresenter.swift */,
+				C9B571D22AB755D6000DD8D7 /* ProfilePresenterProtocol.swift */,
+				C9FFC1D02A6BDC4500C859BE /* ProfileViewController.swift */,
+				C9B571D02AB7550E000DD8D7 /* ProfileViewControllerProtocol.swift */,
+			);
+			path = ProfileScreen;
+			sourceTree = "<group>";
+		};
+		C91F81E72ABEF7E000335F16 /* ImagesScreen */ = {
+			isa = PBXGroup;
+			children = (
+				C9BD1E632A589CE70052C9BD /* ImagesListService */,
+				C94222872A544CBD0005A92B /* ImagesListViewController.swift */,
+				C92156BC2AB7899C0078CCC5 /* ImagesListPresenter.swift */,
+				C92156BA2AB7894D0078CCC5 /* ImagesListPresenterProtocol.swift */,
+				C92156B82AB788FA0078CCC5 /* ImagesListViewControllerProtocol.swift */,
+				C9955C682AA75DAF005BD398 /* ImagesListCellDelegate.swift */,
+			);
+			path = ImagesScreen;
+			sourceTree = "<group>";
+		};
+		C91F81E82ABEF88200335F16 /* SplashScreen */ = {
+			isa = PBXGroup;
+			children = (
+				C98A17C32A859C28008FBD2A /* SplashViewController.swift */,
+			);
+			path = SplashScreen;
+			sourceTree = "<group>";
+		};
+		C91F81E92ABEF95F00335F16 /* SingleImageScreen */ = {
+			isa = PBXGroup;
+			children = (
+				C9FFC1D22A6EDC1100C859BE /* SingleImageViewController.swift */,
+			);
+			path = SingleImageScreen;
+			sourceTree = "<group>";
+		};
+		C91F81EA2ABEF9C200335F16 /* AuthService */ = {
+			isa = PBXGroup;
+			children = (
+				C946407B2A785A90003215B3 /* AuthConfiguration.swift */,
+				C98A17B92A851FBE008FBD2A /* OAuth2Service.swift */,
+				C98A17BB2A852094008FBD2A /* OAuth2TokenStorage.swift */,
+			);
+			path = AuthService;
+			sourceTree = "<group>";
+		};
 		C920FC1A2A596C280025F89B /* Resources */ = {
 			isa = PBXGroup;
 			children = (
@@ -235,13 +315,12 @@
 		C94222822A544CBD0005A92B /* ImageFeed */ = {
 			isa = PBXGroup;
 			children = (
-				C9AD107B2AB3AE15006CD720 /* Auth */,
-				C98A17B52A851EBF008FBD2A /* Models */,
-				C9D46BD72A9659ED00E6A93E /* ViewControllers */,
-				C9AD10742AB353FE006CD720 /* Presenters */,
-				C98A17BD2A8594CA008FBD2A /* Services */,
-				C920FC1A2A596C280025F89B /* Resources */,
+				C9F1C1ED2A8D144600B77061 /* AlertPresenter */,
 				C94222992A54B6EA0005A92B /* Helpers */,
+				C98A17B52A851EBF008FBD2A /* Models */,
+				C91F81E42ABEF53E00335F16 /* Screens */,
+				C9D46BD72A9659ED00E6A93E /* TabBar */,
+				C920FC1A2A596C280025F89B /* Resources */,
 				C94222892A544CBD0005A92B /* Main.storyboard */,
 				C94222832A544CBD0005A92B /* AppDelegate.swift */,
 				C94222852A544CBD0005A92B /* SceneDelegate.swift */,
@@ -253,6 +332,7 @@
 		C94222992A54B6EA0005A92B /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				C9CF59232A9024880050B833 /* UIBlockingProgressHUD.swift */,
 				C942229A2A54B70F0005A92B /* UIColor+Extension.swift */,
 				C9CF592C2A93F9130050B833 /* URLRequest.swift */,
 				C9CF592E2A93F9690050B833 /* URLSession.swift */,
@@ -276,47 +356,6 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
-		C98A17B82A851F8A008FBD2A /* OAuth2 */ = {
-			isa = PBXGroup;
-			children = (
-				C98A17B92A851FBE008FBD2A /* OAuth2Service.swift */,
-				C98A17BB2A852094008FBD2A /* OAuth2TokenStorage.swift */,
-			);
-			path = OAuth2;
-			sourceTree = "<group>";
-		};
-		C98A17BD2A8594CA008FBD2A /* Services */ = {
-			isa = PBXGroup;
-			children = (
-				C9BD1E632A589CE70052C9BD /* ImagesList */,
-				C98A17B82A851F8A008FBD2A /* OAuth2 */,
-				C9CF59252A9399D40050B833 /* ProfileService */,
-				C9B571CF2AB7546F000DD8D7 /* Protocols */,
-				C9CF59232A9024880050B833 /* UIBlockingProgressHUD.swift */,
-			);
-			path = Services;
-			sourceTree = "<group>";
-		};
-		C9AD10742AB353FE006CD720 /* Presenters */ = {
-			isa = PBXGroup;
-			children = (
-				C9F1C1ED2A8D144600B77061 /* AlertPresenter */,
-				C9AD10752AB3541B006CD720 /* WebViewPresenter.swift */,
-				C9B571CD2AB753CE000DD8D7 /* ProfilePresenter.swift */,
-				C92156BC2AB7899C0078CCC5 /* ImagesListPresenter.swift */,
-			);
-			path = Presenters;
-			sourceTree = "<group>";
-		};
-		C9AD107B2AB3AE15006CD720 /* Auth */ = {
-			isa = PBXGroup;
-			children = (
-				C946407B2A785A90003215B3 /* AuthConfiguration.swift */,
-				C9AD10792AB3AD5C006CD720 /* AuthHelper.swift */,
-			);
-			path = Auth;
-			sourceTree = "<group>";
-		};
 		C9AD10812AB3BAC9006CD720 /* ImageFeedUnitTests */ = {
 			isa = PBXGroup;
 			children = (
@@ -328,31 +367,13 @@
 			path = ImageFeedUnitTests;
 			sourceTree = "<group>";
 		};
-		C9B571CF2AB7546F000DD8D7 /* Protocols */ = {
-			isa = PBXGroup;
-			children = (
-				C9AD10772AB3AC37006CD720 /* AuthHelperProtocol.swift */,
-				C98A17C02A85957B008FBD2A /* AuthViewControllerDelegate.swift */,
-				C9F1C1EB2A8D138300B77061 /* AlertPresenterProtocol.swift */,
-				C9955C682AA75DAF005BD398 /* ImagesListCellDelegate.swift */,
-				C92156BA2AB7894D0078CCC5 /* ImagesListPresenterProtocol.swift */,
-				C92156B82AB788FA0078CCC5 /* ImagesListViewControllerProtocol.swift */,
-				C9B571D22AB755D6000DD8D7 /* ProfilePresenterProtocol.swift */,
-				C9B571D02AB7550E000DD8D7 /* ProfileViewControllerProtocol.swift */,
-				C98A17BE2A859505008FBD2A /* WebViewViewControllerDelegate.swift */,
-				C9AD10702AB352E6006CD720 /* WebViewViewControllerProtocol.swift */,
-				C9AD10722AB35355006CD720 /* WebViewPresenterProtocol.swift */,
-			);
-			path = Protocols;
-			sourceTree = "<group>";
-		};
-		C9BD1E632A589CE70052C9BD /* ImagesList */ = {
+		C9BD1E632A589CE70052C9BD /* ImagesListService */ = {
 			isa = PBXGroup;
 			children = (
 				C9BD1E612A589CCA0052C9BD /* ImagesListCell.swift */,
 				C9BA2A8B2A9FD1BD007ABA19 /* ImagesListService.swift */,
 			);
-			path = ImagesList;
+			path = ImagesListService;
 			sourceTree = "<group>";
 		};
 		C9CF59252A9399D40050B833 /* ProfileService */ = {
@@ -364,25 +385,20 @@
 			path = ProfileService;
 			sourceTree = "<group>";
 		};
-		C9D46BD72A9659ED00E6A93E /* ViewControllers */ = {
+		C9D46BD72A9659ED00E6A93E /* TabBar */ = {
 			isa = PBXGroup;
 			children = (
-				C9F38BFF2A7C516400C83E4A /* AuthViewController.swift */,
-				C94222872A544CBD0005A92B /* ImagesListViewController.swift */,
-				C9FFC1D02A6BDC4500C859BE /* ProfileViewController.swift */,
 				C9F1C1F02A8E1C2900B77061 /* RootNavigationController.swift */,
-				C9FFC1D22A6EDC1100C859BE /* SingleImageViewController.swift */,
-				C98A17C32A859C28008FBD2A /* SplashViewController.swift */,
 				C97551232A9A068700167354 /* TabBarController.swift */,
-				C9F38C022A828B0000C83E4A /* WebViewViewController.swift */,
 			);
-			path = ViewControllers;
+			path = TabBar;
 			sourceTree = "<group>";
 		};
 		C9F1C1ED2A8D144600B77061 /* AlertPresenter */ = {
 			isa = PBXGroup;
 			children = (
 				C9F1C1EE2A8D149D00B77061 /* AlertPresenter.swift */,
+				C9F1C1EB2A8D138300B77061 /* AlertPresenterProtocol.swift */,
 			);
 			path = AlertPresenter;
 			sourceTree = "<group>";

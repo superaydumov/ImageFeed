@@ -20,7 +20,6 @@ public final class ImagesListCell: UITableViewCell {
     
     struct Keys {
         static let reuseIdentifier = "ImagesListCell"
-        static let placeholderImage = "image_placeholder"
         static let likedButtonOn = "like_button_ON"
         static let likedButtonOff = "like_button_OFF"
     }
@@ -50,17 +49,14 @@ extension ImagesListCell {
         var status = false
         
         guard let photoURL = URL(string: photoURLString) else { return status }
-        
-        let placeholderImage = UIImage(named: Keys.placeholderImage)
-        
-        cellImage.kf.indicatorType = .activity
-        cellImage.kf.setImage(with: photoURL,
-                              placeholder: placeholderImage) { result in
+                
+        cellImage.kf.indicatorType = .custom(indicator: UIBlockingProgressHUD.MyIndicator())
+        cellImage.kf.setImage(with: photoURL) { result in
             switch result {
             case .success(_):
                 status = true
             case .failure(let error):
-                print ("There's an error with placeholder picture: \(error)")
+                print ("There's an error with picture: \(error)")
             }
         }
         

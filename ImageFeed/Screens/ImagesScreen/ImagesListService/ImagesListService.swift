@@ -15,6 +15,7 @@ final class ImagesListService {
     private (set) var photos: [Photo] = []
     private var fetchPhotosTask: URLSessionTask?
     private var likeTask: URLSessionTask?
+    private let perPage = 10
     
     static let shared = ImagesListService()
     private init() {}
@@ -42,7 +43,7 @@ final class ImagesListService {
 
             guard let token = self.token else { return }
 
-            var request: URLRequest? = photosRequest(page: nextPage, perPage: 10)
+            var request: URLRequest? = photosRequest(page: nextPage, perPage: perPage)
             request?.addValue("Bearer \(token))", forHTTPHeaderField: "Authorization")
 
             guard let request else { return }
@@ -58,7 +59,7 @@ final class ImagesListService {
                                                      size: CGSize(width: photo.width, height: photo.height),
                                                      createdAt: date,
                                                      welcomeDescription: photo.description,
-                                                     thumbImageURL: photo.urls.thumb ?? Keys.noURLRequestThumb,
+                                                     thumbImageURL: photo.urls.small ?? Keys.noURLRequestThumb,
                                                      largeImageURL: photo.urls.full ?? Keys.noURLRequestFull,
                                                      isLiked: photo.likedByUser))
                         }
