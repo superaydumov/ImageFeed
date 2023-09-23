@@ -19,7 +19,7 @@ struct PhotoResult: Codable {
 
 struct URLResult: Codable {
     let full: String?
-    let thumb: String?
+    let small: String?
 }
 
 struct LikePhotoResult: Codable {
