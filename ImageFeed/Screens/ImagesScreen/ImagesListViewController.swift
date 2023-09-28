@@ -113,6 +113,7 @@ extension ImagesListViewController: UITableViewDataSource {
         
         if configuringCellStatus {
             tableView.reloadRows(at: [indexPath], with: .automatic)
+            print("reload")
         }
         UIBlockingProgressHUD.dismiss()
         return cell
@@ -123,8 +124,11 @@ extension ImagesListViewController: UITableViewDataSource {
 
 extension ImagesListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        if indexPath.row + 1 == photos.count {
-            presenter?.fetchPhotosNextPage()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            if tableView.visibleCells.contains(cell),
+                indexPath.row + 1 == self.photos.count {
+                self.presenter?.fetchPhotosNextPage()
+            }
         }
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
