@@ -55,6 +55,8 @@ extension ImagesListCell {
                 
         cellImage.kf.indicatorType = .custom(indicator: UIBlockingProgressHUD.MyIndicator())
         cellImage.kf.setImage(with: photoURL) { result in
+            DispatchQueue.main.async { [weak self] in
+                guard let self else { return }
             switch result {
             case .success(_):
                 status = true
@@ -66,6 +68,7 @@ extension ImagesListCell {
                 print ("There's an error with picture: \(error)")
             }
         }
+    }
         
         if let date = imagesListService.photos[indexPath.row].createdAt {
             dateLabel.text = DateFormatters.long.string(from: date)

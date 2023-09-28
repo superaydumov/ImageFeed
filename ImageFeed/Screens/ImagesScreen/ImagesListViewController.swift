@@ -111,10 +111,13 @@ extension ImagesListViewController: UITableViewDataSource {
         let configuringCellStatus = cell.configureCell(using: photo.thumbImageURL, with: indexPath)
         cell.isLikedDidSet(photo.isLiked)
         
-        if configuringCellStatus {
-            tableView.reloadRows(at: [indexPath], with: .automatic)
-            print("reload")
+        DispatchQueue.main.async {
+            if configuringCellStatus {
+                tableView.reloadRows(at: [indexPath], with: .automatic)
+                print("reload")
+            }
         }
+        
         UIBlockingProgressHUD.dismiss()
         return cell
     }
