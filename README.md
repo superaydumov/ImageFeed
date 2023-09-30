@@ -2,8 +2,8 @@
 
 ## Ссылки
 
-[Дизайн в Figma] - 
-[Unsplash API] - посмотреть
+[Дизайн в Figma](https://www.figma.com/file/HyDfKh5UVPOhPZIhBqIm3q/Image-Feed-(YP)?type=design&node-id=334-4892&mode=design&t=GfpSiAyyIusqeuGX-0)
+[Unsplash API](https://unsplash.com/documentation)
 
 Изображения
 
