@@ -20,6 +20,7 @@ public final class ImagesListCell: UITableViewCell {
     
     struct Keys {
         static let reuseIdentifier = "ImagesListCell"
+        static let placeholderImage = "image_placeholder"
         static let likedButtonOn = "like_button_ON"
         static let likedButtonOff = "like_button_OFF"
     }
@@ -48,17 +49,26 @@ extension ImagesListCell {
         
         var status = false
         
+        let placeholder = UIImage(named: Keys.placeholderImage)
+        
         guard let photoURL = URL(string: photoURLString) else { return status }
                 
         cellImage.kf.indicatorType = .custom(indicator: UIBlockingProgressHUD.MyIndicator())
         cellImage.kf.setImage(with: photoURL) { result in
+            DispatchQueue.main.async { [weak self] in
+                guard let self else { return }
             switch result {
             case .success(_):
                 status = true
+                print ("configure")
             case .failure(let error):
+                self.cellImage.image = placeholder
+                self.cellImage.contentMode = UIView.ContentMode.center
+                self.cellImage.backgroundColor = .ypGray
                 print ("There's an error with picture: \(error)")
             }
         }
+    }
         
         if let date = imagesListService.photos[indexPath.row].createdAt {
             dateLabel.text = DateFormatters.long.string(from: date)
